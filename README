@@ -1,0 +1,9 @@
+Authen::CAS::External is an implementation of a client for use with
+web sites that use JA-SIG's Central Authentication Service.
+
+
+More information about the CAS protocol can be found at the
+JA-SIG CAS homepage:
+
+http://www.jasig.org/cas
+
