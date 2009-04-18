@@ -1,21 +1,26 @@
 package Authen::CAS::External;
 
 use 5.008;
-use warnings;
 use strict;
+use utf8;
+use version 0.74;
+use warnings 'all';
+
+# Module metadata
+our $AUTHORITY = 'cpan:DOUGDUDE';
+our $VERSION   = '0.01_01';
+
+1;
+
+__END__
 
 =head1 NAME
 
-Authen::CAS::External - The great new Authen::CAS::External!
+Authen::CAS::External - Authenticate with CAS servers as a browser would.
 
 =head1 VERSION
 
 Version 0.01_01
-
-=cut
-
-our $VERSION = '0.01_01';
-
 
 =head1 SYNOPSIS
 
@@ -27,27 +32,6 @@ Perhaps a little code snippet.
 
     my $foo = Authen::CAS::External->new();
     ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 FUNCTIONS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
@@ -103,6 +87,3 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 
-=cut
-
-1; # End of Authen::CAS::External
