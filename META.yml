@@ -1,5 +1,5 @@
 ---
-abstract: 'The great new Authen::CAS::External!'
+abstract: 'Authenticate with CAS servers as a browser'
 author:
   - 'Douglas Christopher Wilson <doug@somethingdoug.com>'
 build_requires:

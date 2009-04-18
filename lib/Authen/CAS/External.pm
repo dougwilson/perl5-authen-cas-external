@@ -16,7 +16,8 @@ __END__
 
 =head1 NAME
 
-Authen::CAS::External - Authenticate with CAS servers as a browser would.
+Authen::CAS::External - Authenticate with CAS servers as a browser
+would.
 
 =head1 VERSION
 
@@ -24,14 +25,9 @@ Version 0.01_01
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Authen::CAS::External;
-
-    my $foo = Authen::CAS::External->new();
-    ...
+Provides a way to authenticate with a CAS server just as a browser
+would. This is useful with web scrapers needing to login to a CAS
+site.
 
 =head1 AUTHOR
 
