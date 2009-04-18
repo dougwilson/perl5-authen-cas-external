@@ -7,6 +7,9 @@ license  'perl';
 
 build_requires 'Test::More';
 
+requires 'Authen::CAS::Client' => '0.03';
+requires 'WWW::Mechanize'      => '1.54';
+
 auto_install;
 
 WriteAll;

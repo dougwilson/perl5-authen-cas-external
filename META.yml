@@ -19,6 +19,8 @@ no_index:
     - inc
     - t
 requires:
+  Authen::CAS::Client: 0.03
+  WWW::Mechanize: 1.54
   perl: 5.8.0
 resources:
   license: http://dev.perl.org/licenses/
