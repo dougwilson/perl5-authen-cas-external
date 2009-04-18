@@ -10,6 +10,27 @@ use warnings 'all';
 our $AUTHORITY = 'cpan:DOUGDUDE';
 our $VERSION   = '0.01_01';
 
+use Moose 0.74;
+
+# Attributes
+
+has 'cas_url' => (
+	is       => 'rw',
+	isa      => 'String',
+	required => 1,
+);
+
+has 'service_url' => (
+	is  => 'rw',
+	isa => 'String',
+);
+
+# Make immutable
+__PACKAGE__->meta->make_immutable;
+
+# Clean out Moose keywords
+no Moose;
+
 1;
 
 __END__
