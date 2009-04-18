@@ -11,6 +11,8 @@ our $AUTHORITY = 'cpan:DOUGDUDE';
 our $VERSION   = '0.01_01';
 
 use Moose 0.74;
+use Authen::CAS::Client 0.03;
+use WWW::Mechanize 1.54;
 
 # Attributes
 
