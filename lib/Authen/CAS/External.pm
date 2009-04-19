@@ -56,7 +56,7 @@ site.
 
 Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
 
-=head1 BUGS
+=head1 BUGS AND LIMITATIONS
 
 Please report any bugs or feature requests to C<bug-authen-cas-external at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.  I will be notified, and then you'll
@@ -98,7 +98,7 @@ L<http://search.cpan.org/dist/Authen-CAS-External/>
 =head1 ACKNOWLEDGEMENTS
 
 
-=head1 COPYRIGHT & LICENSE
+=head1 LICENSE AND COPYRIGHT
 
 Copyright 2009 Douglas Christopher Wilson, all rights reserved.
 
