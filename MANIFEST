@@ -17,6 +17,7 @@ META.yml
 README
 t/00-load.t
 t/author/critic.t
+t/author/kwalitee.t
 t/author/perlcriticrc
 t/author/pod-coverage.t
 t/author/pod.t
