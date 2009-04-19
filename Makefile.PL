@@ -12,5 +12,8 @@ requires 'WWW::Mechanize'      => '1.54';
 
 auto_install;
 
+# Enable tests to be in multi-level directories
+tests_recursive;
+
 WriteAll;
 
