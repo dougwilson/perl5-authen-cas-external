@@ -13,7 +13,7 @@ plan skip_all => 'Set TEST_AUTHOR to enable this test'
 
 # Ensure a recent version of Test::Pod
 my $min_tp = 1.22;
-eval sprintf 'use Test::Pod %f', $min_tp;
+eval "use Test::Pod $min_tp";
 plan skip_all => sprintf 'Test::Pod %f required for testing POD', $min_tp
 	if $@;
 

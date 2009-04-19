@@ -13,7 +13,7 @@ plan skip_all => 'set TEST_AUTHOR to enable this test'
 
 # Ensure a recent version of Test::Pod::Coverage
 my $min_tpc = 1.08;
-eval sprintf 'use Test::Pod::Coverage %f', $min_tpc;
+eval "use Test::Pod::Coverage $min_tpc";
 plan skip_all => sprintf 'Test::Pod::Coverage %f required for testing POD coverage', $min_tpc
 	if $@;
 
