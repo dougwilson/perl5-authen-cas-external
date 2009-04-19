@@ -10,8 +10,6 @@ build_requires 'Test::More';
 requires 'Authen::CAS::Client' => '0.03';
 requires 'WWW::Mechanize'      => '1.54';
 
-auto_install;
-
 # Enable tests to be in multi-level directories
 tests_recursive;
 
