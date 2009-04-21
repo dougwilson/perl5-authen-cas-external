@@ -68,6 +68,18 @@ Version 0.01_01
 
 =head1 SYNOPSIS
 
+  my $cas_auth = Authen::CAS::External->new(
+      cas_url => 'https://cas.mydomain.com/',
+  );
+
+  my $ticket = $cas_auth->get_service_ticket(
+      'http://someadminsite.mydomain.com/login',
+      'joe_smith',
+      'hAkaT5eR'
+  );
+
+=head1 DESCRIPTION
+
 Provides a way to authenticate with a CAS server just as a browser
 would. This is useful with web scrapers needing to login to a CAS
 site.
