@@ -81,6 +81,18 @@ B<get_service_ticket($service, $username, $password)>
 This method will get the service ticket from the CAS server for the
 specified service and using the supplied username and password.
 
+=head1 DEPENDENCIES
+
+=over 4
+
+=item * L<Moose> 0.74
+
+=item * L<Authen::CAS::Client> 0.03
+
+=item * L<WWW::Mechanize> 1.54
+
+=back
+
 =head1 AUTHOR
 
 Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
