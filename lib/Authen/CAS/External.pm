@@ -72,6 +72,15 @@ Provides a way to authenticate with a CAS server just as a browser
 would. This is useful with web scrapers needing to login to a CAS
 site.
 
+=head1 METHODS
+
+=head2 get_service_ticket
+
+B<get_service_ticket($service, $username, $password)>
+
+This method will get the service ticket from the CAS server for the
+specified service and using the supplied username and password.
+
 =head1 AUTHOR
 
 Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
