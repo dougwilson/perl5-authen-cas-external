@@ -12,6 +12,7 @@ our $VERSION   = '0.01_01';
 
 use Carp qw(croak);
 use Moose 0.74;
+use MooseX::StrictConstructor 0.08;
 use Authen::CAS::Client 0.03;
 use WWW::Mechanize 1.54;
 
@@ -98,6 +99,8 @@ specified service and using the supplied username and password.
 =over 4
 
 =item * L<Moose> 0.74
+
+=item * L<MooseX::StrictConstructor> 0.08
 
 =item * L<Authen::CAS::Client> 0.03
 

@@ -20,6 +20,7 @@ no_index:
     - t
 requires:
   Authen::CAS::Client: 0.03
+  MooseX::StrictConstructor: 0.08
   WWW::Mechanize: 1.54
   perl: 5.8.0
 resources:

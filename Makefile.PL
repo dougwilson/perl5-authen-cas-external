@@ -7,8 +7,9 @@ license  'perl';
 
 build_requires 'Test::More';
 
-requires 'Authen::CAS::Client' => '0.03';
-requires 'WWW::Mechanize'      => '1.54';
+requires 'Authen::CAS::Client'       => '0.03';
+requires 'MooseX::StrictConstructor' => '0.08';
+requires 'WWW::Mechanize'            => '1.54';
 
 # Enable tests to be in multi-level directories
 tests_recursive;
