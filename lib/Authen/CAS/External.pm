@@ -10,6 +10,7 @@ use warnings 'all';
 our $AUTHORITY = 'cpan:DOUGDUDE';
 our $VERSION   = '0.01_01';
 
+use Carp qw(croak);
 use Moose 0.74;
 use Authen::CAS::Client 0.03;
 use WWW::Mechanize 1.54;
@@ -34,6 +35,17 @@ has 'ticket_granting_cookie' => (
 	isa => 'String',
 	documentation => q{The Ticket Granting Cookie for the CAS user session},
 );
+
+sub get_service_ticket {
+	my ($self, $service, $username, $password) = @_;
+
+	if (!defined $service) {
+		# The service URL must be provided
+		croak 'A service URL MUST be provided to get a service ticket.';
+	}
+
+	croak 'TODO: Implement get_service_ticket';
+}
 
 # Make immutable
 __PACKAGE__->meta->make_immutable;
