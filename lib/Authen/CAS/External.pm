@@ -25,12 +25,6 @@ has 'cas_url' => (
 	documentation => q{The URL of the CAS site. This does not include /login},
 );
 
-has 'service_url' => (
-	is  => 'rw',
-	isa => 'String',
-	documentation => q{The service URL the user is trying to authenticate for},
-);
-
 has 'ticket_granting_cookie' => (
 	is => 'rw',
 	isa => 'String',
