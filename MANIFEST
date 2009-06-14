@@ -24,3 +24,4 @@ t/author/perl-version.t
 t/author/perlcriticrc
 t/author/pod-coverage.t
 t/author/pod.t
+t/needtests.t
