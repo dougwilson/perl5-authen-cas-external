@@ -1,6 +1,6 @@
 package Authen::CAS::External;
 
-use 5.008;
+use 5.008001;
 use strict;
 use utf8;
 use version 0.74;
@@ -8,38 +8,123 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01_01';
+our $VERSION   = '0.01';
 
-use Carp qw(croak);
-use Moose 0.74;
+use Authen::CAS::External::Library qw(TicketGrantingCookie);
+use Moose 0.77;
 use MooseX::StrictConstructor 0.08;
-use Authen::CAS::Client 0.03;
-use WWW::Mechanize 1.54;
+use MooseX::Types::Moose qw(Str);
+use URI 1.22;
+
+# Role
+
+with 'Authen::CAS::External::UserAgent';
 
 # Attributes
 
-has 'cas_url' => (
+has cas_url => (
 	is       => 'rw',
 	isa      => 'String',
 	required => 1,
 	documentation => q{The URL of the CAS site. This does not include /login},
 );
+has password => (
+	is  => 'rw',
+	isa => Str,
 
-has 'ticket_granting_cookie' => (
-	is => 'rw',
-	isa => 'String',
+	clearer   => 'clear_password',
+	predicate => 'has_password',
+	trigger   => sub { shift->clear_ticket_granting_cookie },
+);
+has ticket_granting_cookie => (
+	is  => 'rw',
+	isa => TicketGrantingCookie,
+
+	clearer       => 'clear_ticket_granting_cookie',
 	documentation => q{The Ticket Granting Cookie for the CAS user session},
+	predicate     => 'has_ticket_granting_cookie',
+);
+has username => (
+	is  => 'rw',
+	isa => Str,
+
+	clearer   => 'clear_username',
+	predicate => 'has_username',
+	trigger   => sub { shift->clear_ticket_granting_cookie },
 );
 
-sub get_service_ticket {
-	my ($self, $service, $username, $password) = @_;
+# Methods
 
-	if (!defined $service) {
-		# The service URL must be provided
-		croak 'A service URL MUST be provided to get a service ticket.';
+sub authenticate {
+	my ($self, %args) = @_;
+
+	# Splice out the variables
+	my ($service, $gateway, $renew) = @args{qw(service gateway renew)};
+
+	# Get the URI to request
+	my $url = $self->service_request_url(
+		(defined $gateway ? (gateway => $gateway) : () ),
+		(defined $renew   ? (renew   => $renew  ) : () ),
+		(defined $service ? (service => $service) : () ),
+	);
+
+	# Do not redirect back to service
+	my $redirect_back = $self->redirect_back;
+	$self->redirect_back(0);
+
+	# Get the service
+	my $response = $self->get($url);
+
+	# Restore previous value
+	$self->redirect_back($redirect_back);
+
+	if (!$self->has_previous_response) {
+		confess 'Failed retrieving response';
 	}
 
-	croak 'TODO: Implement get_service_ticket';
+	# Set our ticket granting ticket if we have one
+	if ($self->previous_response->has_ticket_granting_cookie) {
+		$self->ticket_granting_cookie($self->previous_response->ticket_granting_cookie);
+	}
+
+	# Return the last response
+	return $self->previous_response;
+}
+
+sub get_cas_credentials {
+	my ($self, %args) = @_;
+
+	# Splice out the variables
+	my ($service) = @args{qw(service)};
+
+	# This default callback stub simply returns the stored
+	# credentials
+	if (!$self->has_username) {
+		confess 'Unable to authenticate because no username was provided';
+	}
+
+	if (!$self->has_password) {
+		confess 'Unable to authenticate because no password was provided';
+	}
+
+	# Return username, password
+	return $self->username, $self->password;
+}
+
+sub get_cas_ticket_granting_cookie {
+	my ($self, %args) = @_;
+
+	# Splice out the variables
+	my ($username, $service) = @args{qw(username service)};
+
+	# This default callback stub simply returns the stored
+	# credentials
+	if (!$self->has_ticket_granting_cookie) {
+		return;
+	}
+
+	# Return ticket granting ticket
+	return $self->ticket_granting_cookie;
 }
 
 # Make immutable
@@ -59,7 +144,7 @@ would.
 
 =head1 VERSION
 
-Version 0.01_01
+This documentation refers to <Authen::CAS::External> version 0.01
 
 =head1 SYNOPSIS
 
@@ -67,11 +152,13 @@ Version 0.01_01
       cas_url => 'https://cas.mydomain.com/',
   );
 
-  my $ticket = $cas_auth->get_service_ticket(
-      'http://someadminsite.mydomain.com/login',
-      'joe_smith',
-      'hAkaT5eR'
-  );
+  # Set the username and password
+  $cas_auth->username('joe_smith');
+  $cas_auth->password('hAkaT5eR');
+
+  my $response = $cas_auth->authentiate();
+
+  my $secured_page = $ua->get($response->destination);
 
 =head1 DESCRIPTION
 
@@ -81,24 +168,23 @@ site.
 
 =head1 METHODS
 
-=head2 get_service_ticket
+=head2 authenticate
 
-B<get_service_ticket($service, $username, $password)>
-
-This method will get the service ticket from the CAS server for the
-specified service and using the supplied username and password.
+This method will authenticate against the CAS service using the presupplied
+username and password and will return a L<Authen::CAS::External::Response>
+object.
 
 =head1 DEPENDENCIES
 
 =over 4
 
-=item * L<Moose> 0.74
+=item * L<Moose> 0.77
 
 =item * L<MooseX::StrictConstructor> 0.08
 
-=item * L<Authen::CAS::Client> 0.03
+=item * L<MooseX::Types::Moose>
 
-=item * L<WWW::Mechanize> 1.54
+=item * L<URI> 1.22
 
 =back
 

@@ -22,7 +22,7 @@ requires:
   Authen::CAS::Client: 0.03
   MooseX::StrictConstructor: 0.08
   WWW::Mechanize: 1.54
-  perl: 5.8.0
+  perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01_01
+version: 0.01
