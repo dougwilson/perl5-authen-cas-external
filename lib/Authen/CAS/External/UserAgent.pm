@@ -334,7 +334,8 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External::UserAgent> version 0.01
+This documentation refers to L<Authen::CAS::External::UserAgent> version
+0.01
 
 =head1 SYNOPSIS
 

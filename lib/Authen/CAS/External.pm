@@ -135,7 +135,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External> version 0.01
+This documentation refers to L<Authen::CAS::External> version 0.01
 
 =head1 SYNOPSIS
 

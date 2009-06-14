@@ -39,14 +39,14 @@ Authen::CAS::External::Library - Types library
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External::Library> version 0.01
+This documentation refers to L<Authen::CAS::External::Library> version 0.01
 
 =head1 SYNOPSIS
 
-use Authen::CAS::External::Library qw(ServiceTicket);
-# This will import ServiceTicket type into your namespace as well as some
-# helpers like to_ServiceTicket and is_ServiceTicket. See MooseX::Types for
-# more information.
+  use Authen::CAS::External::Library qw(ServiceTicket);
+  # This will import ServiceTicket type into your namespace as well as some
+  # helpers like to_ServiceTicket and is_ServiceTicket. See MooseX::Types
+  # for more information.
 
 =head1 DESCRIPTION
 
