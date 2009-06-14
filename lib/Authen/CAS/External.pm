@@ -22,12 +22,6 @@ with 'Authen::CAS::External::UserAgent';
 
 # Attributes
 
-has cas_url => (
-	is       => 'rw',
-	isa      => 'String',
-	required => 1,
-	documentation => q{The URL of the CAS site. This does not include /login},
-);
 has password => (
 	is  => 'rw',
 	isa => Str,
@@ -92,10 +86,7 @@ sub authenticate {
 }
 
 sub get_cas_credentials {
-	my ($self, %args) = @_;
-
-	# Splice out the variables
-	my ($service) = @args{qw(service)};
+	my ($self, $service) = @_;
 
 	# This default callback stub simply returns the stored
 	# credentials
@@ -149,7 +140,7 @@ This documentation refers to <Authen::CAS::External> version 0.01
 =head1 SYNOPSIS
 
   my $cas_auth = Authen::CAS::External->new(
-      cas_url => 'https://cas.mydomain.com/',
+      cas_url => URI->new('https://cas.mydomain.com/'),
   );
 
   # Set the username and password
@@ -178,7 +169,7 @@ This will construct a new object.
 =head3 cas_url
 
 This is the URL of the CAS site excluding /login. This is required and is a
-string.
+URI object.
 
 =head3 password
 

@@ -11,6 +11,7 @@ our $AUTHORITY = 'cpan:DOUGDUDE';
 our $VERSION   = '0.01';
 
 use Authen::CAS::External::Response;
+use HTML::Form 5.817;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.77;
@@ -418,6 +419,8 @@ This is a Boolean to weither ot not to renew the session.
 =head1 DEPENDENCIES
 
 =over 4
+
+=item * L<HTML::Form> 5.817
 
 =item * L<HTTP::Status> 5.817
 
