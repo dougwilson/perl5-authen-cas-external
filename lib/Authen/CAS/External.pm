@@ -174,7 +174,7 @@ URI object.
 =head3 password
 
 This is the password to use for logging in to the CAS site. When set, this
-clears the L<ticket_granting_cookie>.
+clears the L</ticket_granting_cookie>.
 
 =head3 ticket_granting_cookie
 
@@ -184,7 +184,7 @@ can be set to log in with just the cookie and no usernamd or password.
 =head3 username
 
 This is the username to use for logging in to the CAS site. When set, this
-clears the L<ticket_granting_cookie>.
+clears the L</ticket_granting_cookie>.
 
 =head1 METHODS
 
