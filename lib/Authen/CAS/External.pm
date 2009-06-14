@@ -166,6 +166,35 @@ Provides a way to authenticate with a CAS server just as a browser
 would. This is useful with web scrapers needing to login to a CAS
 site.
 
+=head1 CONSTRUCTOR
+
+This is fully object-oriented, and as such before any method can be used, the
+constructor needs to be called to create an object to work with.
+
+=head2 new
+
+This will construct a new object.
+
+=head3 cas_url
+
+This is the URL of the CAS site excluding /login. This is required and is a
+string.
+
+=head3 password
+
+This is the password to use for logging in to the CAS site. When set, this
+clears the L<ticket_granting_cookie>.
+
+=head3 ticket_granting_cookie
+
+This is the ticket granting cookie to use for logging into the CAS site. This
+can be set to log in with just the cookie and no usernamd or password.
+
+=head3 username
+
+This is the username to use for logging in to the CAS site. When set, this
+clears the L<ticket_granting_cookie>.
+
 =head1 METHODS
 
 =head2 authenticate
