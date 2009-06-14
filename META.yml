@@ -19,9 +19,16 @@ no_index:
     - inc
     - t
 requires:
-  Authen::CAS::Client: 0.03
+  HTTP::Status: 5.817
+  LWP::UserAgent: 5.819
+  Moose: 0.77
+  Moose::Role: 0.77
   MooseX::StrictConstructor: 0.08
-  WWW::Mechanize: 1.54
+  MooseX::Types: 0.08
+  MooseX::Types::Moose: 0
+  Scalar::Util: 1.14
+  URI: 1.22
+  URI::QueryParam: 0
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/

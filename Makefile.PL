@@ -7,9 +7,16 @@ license  'perl';
 
 build_requires 'Test::More';
 
-requires 'Authen::CAS::Client'       => '0.03';
+requires 'HTTP::Status'              => '5.817';
+requires 'LWP::UserAgent'            => '5.819';
+requires 'Moose'                     => '0.77';
+requires 'Moose::Role'               => '0.77';
 requires 'MooseX::StrictConstructor' => '0.08';
-requires 'WWW::Mechanize'            => '1.54';
+requires 'MooseX::Types'             => '0.08';
+requires 'MooseX::Types::Moose'      => 0;
+requires 'Scalar::Util'              => '1.14';
+requires 'URI'                       => '1.22';
+requires 'URI::QueryParam'           => 0;
 
 # Enable tests to be in multi-level directories
 tests_recursive;
