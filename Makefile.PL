@@ -18,6 +18,7 @@ requires 'MooseX::Types::Moose'      => 0;
 requires 'Scalar::Util'              => '1.14';
 requires 'URI'                       => '1.22';
 requires 'URI::QueryParam'           => 0;
+requires 'version'                   => '0.74';
 
 # Enable tests to be in multi-level directories
 tests_recursive;
