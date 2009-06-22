@@ -17,6 +17,7 @@ MANIFEST.SKIP
 META.yml
 README
 t/00-load.t
+t/author/clean-namespaces.t
 t/author/critic.t
 t/author/kwalitee.t
 t/author/manifest.t
