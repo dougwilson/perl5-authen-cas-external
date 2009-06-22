@@ -16,6 +16,9 @@ use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
 
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
+
 # Role
 
 with 'Authen::CAS::External::UserAgent';
@@ -121,9 +124,6 @@ sub get_cas_ticket_granting_cookie {
 # Make immutable
 __PACKAGE__->meta->make_immutable;
 
-# Clean out Moose keywords
-no Moose;
-
 1;
 
 __END__
@@ -205,6 +205,8 @@ object.
 =item * L<MooseX::Types::Moose>
 
 =item * L<URI> 1.22
+
+=item * L<namespace::clean> 0.04
 
 =back
 

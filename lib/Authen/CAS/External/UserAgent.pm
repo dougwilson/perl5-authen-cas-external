@@ -20,6 +20,9 @@ use Scalar::Util 1.14;
 use URI 1.22;
 use URI::QueryParam;
 
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
+
 # Role requires
 
 requires qw(
@@ -321,9 +324,6 @@ sub FOREIGNBUILDARGS {
 	return %args;
 }
 
-# Clean out Moose keywords
-no Moose::Role;
-
 1;
 
 __END__
@@ -434,6 +434,8 @@ This is a Boolean to weither ot not to renew the session.
 =item * L<Scalar::Util> 1.14
 
 =item * L<URI> 1.22
+
+=item * L<namespace::clean> 0.04
 
 =back
 

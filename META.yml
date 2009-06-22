@@ -30,6 +30,7 @@ requires:
   Scalar::Util: 1.14
   URI: 1.22
   URI::QueryParam: 0
+  namespace::clean: 0.04
   perl: 5.8.1
   version: 0.74
 resources:

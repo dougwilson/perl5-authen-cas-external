@@ -17,6 +17,9 @@ use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
 
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
+
 # Attributes
 
 has destination => (
@@ -133,9 +136,6 @@ sub BUILD {
 # Make immutable
 __PACKAGE__->meta->make_immutable;
 
-# Clean out Moose keywords
-no Moose;
-
 1;
 
 __END__
@@ -203,6 +203,8 @@ authentication.
 =item * L<Authen::CAS::Client> 0.03
 
 =item * L<WWW::Mechanize> 1.54
+
+=item * L<namespace::clean> 0.04
 
 =back
 

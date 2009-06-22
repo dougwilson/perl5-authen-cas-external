@@ -18,6 +18,9 @@ use MooseX::Types 0.08 -declare => [qw(
 # Import built-in types
 use MooseX::Types::Moose qw(Int Str);
 
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
+
 # Type definitions
 subtype ServiceTicket,
 	as Str,
@@ -77,6 +80,8 @@ This module is dependent on the following modules:
 =over 4
 
 =item * L<MooseX::Types> 0.08
+
+=item * L<namespace::clean> 0.04
 
 =back
 
