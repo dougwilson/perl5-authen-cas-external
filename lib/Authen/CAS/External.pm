@@ -194,6 +194,19 @@ This method will authenticate against the CAS service using the presupplied
 username and password and will return a L<Authen::CAS::External::Response>
 object.
 
+=head2 get_cas_credentials
+
+This method is not actually used, but is required for classes to consume the
+L<Authen::CAS::External::UserAgent> role as this class does. This method will
+return the currently set username and password to the user agent.
+
+=head2 get_cas_ticket_granting_cookie
+
+This method is not actually usedm but is required for classes to consume the
+L<Authen::CAS::External::UserAgent> role as this class does. This method will
+return the currently set ticket granting cookie if the username requested
+matches the username set (and always should).
+
 =head1 DEPENDENCIES
 
 =over 4
