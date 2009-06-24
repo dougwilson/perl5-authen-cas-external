@@ -77,8 +77,22 @@ sub service_request_url {
 	# Create the beginning of the URL as a URI
 	my $url = $self->cas_url->clone;
 
-	# Set the login path
-	$url->path_segments($url->path_segments, 'login');
+	# Get the URL path
+	my @url_path = $url->path_segments;
+
+	if (@url_path) {
+		# Get the last path item
+		my $last_path_segment = pop @url_path;
+
+		if ($last_path_segment ne q{}
+		    && $last_path_segment ne q{login}) {
+			# Add the last piece back
+			push @url_path, $last_path_segment;
+		}
+	}
+
+	# Set the correct path
+	$url->path_segments(@url_path, 'login');
 
 	if (exists $args{service}) {
 		$url->query_param('service', $args{service});
