@@ -26,3 +26,4 @@ t/author/perlcriticrc
 t/author/pod-coverage.t
 t/author/pod.t
 t/needtests.t
+t/url.t
