@@ -19,7 +19,6 @@ requires 'Scalar::Util'              => '1.14';
 requires 'URI'                       => '1.22';
 requires 'URI::QueryParam'           => 0;
 requires 'namespace::clean'          => '0.04';
-requires 'version'                   => '0.74';
 
 author_requires 'File::Spec'            => 0;
 author_requires 'Pod::Coverage'         => '0.18';
