@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 use MooseX::Types 0.08 -declare => [qw(
 	ServiceTicket
@@ -33,15 +33,13 @@ subtype TicketGrantingCookie,
 
 __END__
 
-=encoding utf8
-
 =head1 NAME
 
 Authen::CAS::External::Library - Types library
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Library> version 0.01
+This documentation refers to L<Authen::CAS::External::Library> version 0.02
 
 =head1 SYNOPSIS
 
