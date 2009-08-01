@@ -21,6 +21,15 @@ requires 'URI::QueryParam'           => 0;
 requires 'namespace::clean'          => '0.04';
 requires 'version'                   => '0.74';
 
+author_requires 'File::Spec'            => 0;
+author_requires 'Pod::Coverage'         => '0.18';
+author_requires 'Test::CleanNamespaces' => 0;
+author_requires 'Test::DistManifest'    => 0;
+author_requires 'Test::MinimumVersion'  => '0.009';
+author_requires 'Test::Perl::Critic'    => 0;
+author_requires 'Test::Pod'             => '1.22';
+author_requires 'Test::Pod::Coverage'   => '1.08';
+
 # Enable tests to be in multi-level directories
 tests_recursive;
 
