@@ -3,12 +3,11 @@ package Authen::CAS::External::Response;
 use 5.008001;
 use strict;
 use utf8;
-use version 0.74;
 use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
@@ -16,6 +15,9 @@ use Moose 0.77;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
+
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
 
 # Attributes
 
@@ -133,9 +135,6 @@ sub BUILD {
 # Make immutable
 __PACKAGE__->meta->make_immutable;
 
-# Clean out Moose keywords
-no Moose;
-
 1;
 
 __END__
@@ -146,7 +145,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External::Response> version 0.01
+This documentation refers to L<Authen::CAS::External::Response> version 0.02
 
 =head1 SYNOPSIS
 
@@ -203,6 +202,8 @@ authentication.
 =item * L<Authen::CAS::Client> 0.03
 
 =item * L<WWW::Mechanize> 1.54
+
+=item * L<namespace::clean> 0.04
 
 =back
 

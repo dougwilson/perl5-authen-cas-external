@@ -3,18 +3,20 @@ package Authen::CAS::External;
 use 5.008001;
 use strict;
 use utf8;
-use version 0.74;
 use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
 use Moose 0.77;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
+
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
 
 # Role
 
@@ -121,9 +123,6 @@ sub get_cas_ticket_granting_cookie {
 # Make immutable
 __PACKAGE__->meta->make_immutable;
 
-# Clean out Moose keywords
-no Moose;
-
 1;
 
 __END__
@@ -135,7 +134,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External> version 0.01
+This documentation refers to L<Authen::CAS::External> version 0.02
 
 =head1 SYNOPSIS
 
@@ -174,7 +173,7 @@ URI object.
 =head3 password
 
 This is the password to use for logging in to the CAS site. When set, this
-clears the L<ticket_granting_cookie>.
+clears the L</ticket_granting_cookie>.
 
 =head3 ticket_granting_cookie
 
@@ -184,7 +183,7 @@ can be set to log in with just the cookie and no usernamd or password.
 =head3 username
 
 This is the username to use for logging in to the CAS site. When set, this
-clears the L<ticket_granting_cookie>.
+clears the L</ticket_granting_cookie>.
 
 =head1 METHODS
 
@@ -193,6 +192,19 @@ clears the L<ticket_granting_cookie>.
 This method will authenticate against the CAS service using the presupplied
 username and password and will return a L<Authen::CAS::External::Response>
 object.
+
+=head2 get_cas_credentials
+
+This method is not actually used, but is required for classes to consume the
+L<Authen::CAS::External::UserAgent> role as this class does. This method will
+return the currently set username and password to the user agent.
+
+=head2 get_cas_ticket_granting_cookie
+
+This method is not actually usedm but is required for classes to consume the
+L<Authen::CAS::External::UserAgent> role as this class does. This method will
+return the currently set ticket granting cookie if the username requested
+matches the username set (and always should).
 
 =head1 DEPENDENCIES
 
@@ -205,6 +217,8 @@ object.
 =item * L<MooseX::Types::Moose>
 
 =item * L<URI> 1.22
+
+=item * L<namespace::clean> 0.04
 
 =back
 

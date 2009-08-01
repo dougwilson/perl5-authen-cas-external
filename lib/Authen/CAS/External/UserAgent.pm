@@ -3,12 +3,11 @@ package Authen::CAS::External::UserAgent;
 use 5.008001;
 use strict;
 use utf8;
-use version 0.74;
 use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
@@ -19,6 +18,9 @@ use MooseX::Types::Moose qw(Bool Str);
 use Scalar::Util 1.14;
 use URI 1.22;
 use URI::QueryParam;
+
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
 
 # Role requires
 
@@ -74,8 +76,22 @@ sub service_request_url {
 	# Create the beginning of the URL as a URI
 	my $url = $self->cas_url->clone;
 
-	# Set the login path
-	$url->path_segments($url->path_segments, 'login');
+	# Get the URL path
+	my @url_path = $url->path_segments;
+
+	if (@url_path) {
+		# Get the last path item
+		my $last_path_segment = pop @url_path;
+
+		if ($last_path_segment ne q{}
+		    && $last_path_segment ne q{login}) {
+			# Add the last piece back
+			push @url_path, $last_path_segment;
+		}
+	}
+
+	# Set the correct path
+	$url->path_segments(@url_path, 'login');
 
 	if (exists $args{service}) {
 		$url->query_param('service', $args{service});
@@ -321,9 +337,6 @@ sub FOREIGNBUILDARGS {
 	return %args;
 }
 
-# Clean out Moose keywords
-no Moose::Role;
-
 1;
 
 __END__
@@ -334,7 +347,8 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External::UserAgent> version 0.01
+This documentation refers to L<Authen::CAS::External::UserAgent> version
+0.02
 
 =head1 SYNOPSIS
 
@@ -433,6 +447,8 @@ This is a Boolean to weither ot not to renew the session.
 =item * L<Scalar::Util> 1.14
 
 =item * L<URI> 1.22
+
+=item * L<namespace::clean> 0.04
 
 =back
 

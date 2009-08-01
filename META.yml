@@ -18,6 +18,7 @@ no_index:
   directory:
     - inc
     - t
+    - xt
 requires:
   HTML::Form: 5.817
   HTTP::Status: 5.817
@@ -30,7 +31,8 @@ requires:
   Scalar::Util: 1.14
   URI: 1.22
   URI::QueryParam: 0
+  namespace::clean: 0.04
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02

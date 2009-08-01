@@ -3,12 +3,11 @@ package Authen::CAS::External::Library;
 use 5.008001;
 use strict;
 use utf8;
-use version 0.74;
 use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 
 use MooseX::Types 0.08 -declare => [qw(
 	ServiceTicket
@@ -17,6 +16,9 @@ use MooseX::Types 0.08 -declare => [qw(
 
 # Import built-in types
 use MooseX::Types::Moose qw(Int Str);
+
+# Clean the imports are the end of scope
+use namespace::clean 0.04 -except => [qw(meta)];
 
 # Type definitions
 subtype ServiceTicket,
@@ -31,22 +33,20 @@ subtype TicketGrantingCookie,
 
 __END__
 
-=encoding utf8
-
 =head1 NAME
 
 Authen::CAS::External::Library - Types library
 
 =head1 VERSION
 
-This documentation refers to <Authen::CAS::External::Library> version 0.01
+This documentation refers to L<Authen::CAS::External::Library> version 0.02
 
 =head1 SYNOPSIS
 
-use Authen::CAS::External::Library qw(ServiceTicket);
-# This will import ServiceTicket type into your namespace as well as some
-# helpers like to_ServiceTicket and is_ServiceTicket. See MooseX::Types for
-# more information.
+  use Authen::CAS::External::Library qw(ServiceTicket);
+  # This will import ServiceTicket type into your namespace as well as some
+  # helpers like to_ServiceTicket and is_ServiceTicket. See MooseX::Types
+  # for more information.
 
 =head1 DESCRIPTION
 
@@ -77,6 +77,8 @@ This module is dependent on the following modules:
 =over 4
 
 =item * L<MooseX::Types> 0.08
+
+=item * L<namespace::clean> 0.04
 
 =back
 
