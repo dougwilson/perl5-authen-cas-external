@@ -168,6 +168,37 @@ This module is rarely created by anything other than
 L<Authen::CAS::External::UserAgent>. This is an object that is provided to
 make determining what the CAS response was easier.
 
+=head1 ATTRIBUTES
+
+=head2 destination
+
+This contains a L<URI> object that is the URL to the destination service after
+authentication. This means that by going to this URL, the client should be at
+the service fully authenticated.
+
+  my $service_page = $user_agent->get($response->destination);
+
+=head2 response
+
+This contains a L<HTTP::Response> object that is the response that occurred
+right before the user agent would have left the CAS site. This would be useful
+for custom parsing of the response.
+
+=head2 service
+
+This contains a L<URI> object that is the URL of the service. This would
+typically be the host and path part of the destination service.
+
+=head2 service_ticket
+
+This is the service ticket that has been granted for the service.
+
+=head2 ticket_granting_cookie
+
+This is the ticket granting cookie that has been given to the user agent to
+allow for reauthentication with the CAS service in the future without
+providing a username and password.
+
 =head1 METHODS
 
 =head2 get_cookies
@@ -181,7 +212,7 @@ B<get_cookies()>
 When no arguments are provided, returns a string of the cookies, using the
 as_string method of L<HTTP::Cookie>.
 
-B<get_cookies(qw(PHPSESSID))>
+B<get_cookies(@list_of_cookie_names)>
 
 When given a list of cookie names, a hash is returned with only those cookies
 where the cookie name is the key and the value is the value.
