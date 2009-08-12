@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.02';
+our $VERSION   = '0.03';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
 use Moose 0.77;
@@ -134,7 +134,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External> version 0.02
+This documentation refers to L<Authen::CAS::External> version 0.03
 
 =head1 SYNOPSIS
 
@@ -228,19 +228,19 @@ Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to C<bug-authen-cas-external at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to
+C<bug-authen-cas-external at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.
+I will be notified, and then you'll automatically be notified of progress on
+your bug as I make changes.
 
-
-
+I highly encourage the submission of bugs and enhancements to my modules.
 
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Authen::CAS::External
-
+  perldoc Authen::CAS::External
 
 You can also look for information at:
 
@@ -270,9 +270,17 @@ L<http://search.cpan.org/dist/Authen-CAS-External/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2009 Douglas Christopher Wilson, all rights reserved.
+Copyright 2009 Douglas Christopher Wilson.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or
+modify it under the terms of either:
 
+=over 4
 
+=item * the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any
+later version, or
+
+=item * the Artistic License version 2.0.
+
+=back

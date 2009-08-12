@@ -21,6 +21,7 @@ no_index:
     - xt
 requires:
   HTML::Form: 5.817
+  HTML::LinkExtractor: 0.13
   HTTP::Status: 5.817
   LWP::UserAgent: 5.819
   Moose: 0.77
@@ -35,4 +36,4 @@ requires:
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03

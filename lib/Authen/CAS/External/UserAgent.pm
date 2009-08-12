@@ -7,10 +7,11 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.02';
+our $VERSION   = '0.03';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
+use HTML::LinkExtractor 0.13;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.77;
@@ -138,22 +139,52 @@ sub _determine_complete_login {
 		});
 	}
 
+	# This is for the service redirect link as a URI object
+	my $service_redirect;
+
 	if (defined $response->header('Location')) {
-		my $service_redirect = URI->new($response->header('Location'));
+		# Set the service redirect link from the Location header
+		$service_redirect = URI->new($response->header('Location'));
+	}
+	else {
+		# There was no Location header. This should not happen in the CAS
+		# protocol outline. But there is a new addon created by Eric Pierce
+		# http://www.ja-sig.org/wiki/display/CASUM/LDAP+Password+Policy+Enforcement
+		# which is ment to enforce password expiration policies.
+		# THIS SECTION LAST UPDATED 2009-08-12
 
-		if (defined(my $ticket = $service_redirect->query_param('ticket'))) {
-			# Store the destination
-			$response_data{destination} = $service_redirect->clone;
+		# Create a new link extractor to find the service link
+		my $link_extractor = HTML::LinkExtractor->new();
 
-			# Store the ticket
-			$response_data{service_ticket} = $ticket;
+		# Now parse the response content
+		$link_extractor->parse($response->content_ref);
 
-			# Remove the ticket from the query
-			$service_redirect->query_param_delete('ticket');
+		# Iterate through the links and find the service link
+		LINK: foreach my $link (@{$link_extractor->links}) {
+			if (exists $link->{href} && $link->{href} =~ m{ticket=ST-}msx) {
+				# Set the service redirect link from this link
+				$service_redirect = URI->new($link->{href});
 
-			# Store the service
-			$response_data{service} = $service_redirect->clone;
+				# Stop processing the links
+				last LINK;
+			}
 		}
+	}
+
+	# Process the service redirect link
+	if (defined $service_redirect
+	    && defined(my $ticket = $service_redirect->query_param('ticket'))) {
+		# Store the destination
+		$response_data{destination} = $service_redirect->clone;
+
+		# Store the ticket
+		$response_data{service_ticket} = $ticket;
+
+		# Remove the ticket from the query
+		$service_redirect->query_param_delete('ticket');
+
+		# Store the service
+		$response_data{service} = $service_redirect->clone;
 	}
 
 	my $cas_response = Authen::CAS::External::Response->new(
@@ -348,7 +379,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 =head1 VERSION
 
 This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.02
+0.03
 
 =head1 SYNOPSIS
 
@@ -436,6 +467,8 @@ This is a Boolean to weither ot not to renew the session.
 
 =item * L<HTML::Form> 5.817
 
+=item * L<HTML::LinkExtractor> 0.13
+
 =item * L<HTTP::Status> 5.817
 
 =item * L<LWP::UserAgent> 5.819
@@ -458,48 +491,27 @@ Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to C<bug-authen-cas-external at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to
+C<bug-authen-cas-external at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.
+I will be notified, and then you'll automatically be notified of progress on
+your bug as I make changes.
 
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Authen::CAS::External
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Authen-CAS-External>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Authen-CAS-External>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Authen-CAS-External>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Authen-CAS-External/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
+I highly encourage the submission of bugs and enhancements to my modules.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2009 Douglas Christopher Wilson, all rights reserved.
+Copyright 2009 Douglas Christopher Wilson.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or
+modify it under the terms of either:
 
+=over 4
 
+=item * the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any
+later version, or
+
+=item * the Artistic License version 2.0.
+
+=back

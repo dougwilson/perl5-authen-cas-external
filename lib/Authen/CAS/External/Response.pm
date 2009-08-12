@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.02';
+our $VERSION   = '0.03';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
@@ -145,7 +145,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Response> version 0.02
+This documentation refers to L<Authen::CAS::External::Response> version 0.03
 
 =head1 SYNOPSIS
 
@@ -168,6 +168,44 @@ This module is rarely created by anything other than
 L<Authen::CAS::External::UserAgent>. This is an object that is provided to
 make determining what the CAS response was easier.
 
+=head1 ATTRIBUTES
+
+=head2 destination
+
+This contains a L<URI> object that is the URL to the destination service after
+authentication. This means that by going to this URL, the client should be at
+the service fully authenticated. Use L</has_destination> to determine if the
+response has a destination address.
+
+  if ($response->has_destination) {
+    my $service_page = $user_agent->get($response->destination);
+  }
+
+=head2 response
+
+This contains a L<HTTP::Response> object that is the response that occurred
+right before the user agent would have left the CAS site. This would be useful
+for custom parsing of the response. Use L</has_response> to determine if the
+response has a response.
+
+=head2 service
+
+This contains a L<URI> object that is the URL of the service. This would
+typically be the host and path part of the destination service. Use
+L</has_service> to determine if the response has a service.
+
+=head2 service_ticket
+
+This is the service ticket that has been granted for the service. Use
+L</has_service_ticket> to determine if the response has a service ticket.
+
+=head2 ticket_granting_cookie
+
+This is the ticket granting cookie that has been given to the user agent to
+allow for reauthentication with the CAS service in the future without
+providing a username and password. Use L</has_ticket_granting_cookie> to
+determine if the response has a ticket granting cookie.
+
 =head1 METHODS
 
 =head2 get_cookies
@@ -181,10 +219,34 @@ B<get_cookies()>
 When no arguments are provided, returns a string of the cookies, using the
 as_string method of L<HTTP::Cookie>.
 
-B<get_cookies(qw(PHPSESSID))>
+B<get_cookies(@list_of_cookie_names)>
 
 When given a list of cookie names, a hash is returned with only those cookies
 where the cookie name is the key and the value is the value.
+
+=head2 has_destination
+
+Returns a Boolean of weither or not the response has an associated
+L</destination>.
+
+=head2 has_response
+
+Returns a Boolean of weither or not the response has an associated
+L</response>.
+
+=head2 has_service
+
+Returns a Boolean of weither or not the response has an associated L</service>.
+
+=head2 has_service_ticket
+
+Returns a Boolean of weither or not the response has an associated
+L</service_ticket>.
+
+=head2 has_ticket_granting_cookie
+
+Returns a Boolean of weither or not the response has an associated
+L</ticket_granting_cookie>.
 
 =head2 is_success
 
@@ -213,51 +275,27 @@ Douglas Christopher Wilson, C<< <doug at somethingdoug.com> >>
 
 =head1 BUGS AND LIMITATIONS
 
-Please report any bugs or feature requests to C<bug-authen-cas-external at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to
+C<bug-authen-cas-external at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Authen-CAS-External>.
+I will be notified, and then you'll automatically be notified of progress on
+your bug as I make changes.
 
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Authen::CAS::External
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Authen-CAS-External>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Authen-CAS-External>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Authen-CAS-External>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Authen-CAS-External/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
+I highly encourage the submission of bugs and enhancements to my modules.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2009 Douglas Christopher Wilson, all rights reserved.
+Copyright 2009 Douglas Christopher Wilson.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or
+modify it under the terms of either:
 
+=over 4
 
+=item * the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any
+later version, or
+
+=item * the Artistic License version 2.0.
+
+=back
