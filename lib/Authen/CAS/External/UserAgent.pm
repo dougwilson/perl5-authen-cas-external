@@ -467,6 +467,8 @@ This is a Boolean to weither ot not to renew the session.
 
 =item * L<HTML::Form> 5.817
 
+=item * L<HTML::LinkExtractor> 0.13
+
 =item * L<HTTP::Status> 5.817
 
 =item * L<LWP::UserAgent> 5.819
