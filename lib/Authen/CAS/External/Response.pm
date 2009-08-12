@@ -174,30 +174,37 @@ make determining what the CAS response was easier.
 
 This contains a L<URI> object that is the URL to the destination service after
 authentication. This means that by going to this URL, the client should be at
-the service fully authenticated.
+the service fully authenticated. Use L</has_destination> to determine if the
+response has a destination address.
 
-  my $service_page = $user_agent->get($response->destination);
+  if ($response->has_destination) {
+    my $service_page = $user_agent->get($response->destination);
+  }
 
 =head2 response
 
 This contains a L<HTTP::Response> object that is the response that occurred
 right before the user agent would have left the CAS site. This would be useful
-for custom parsing of the response.
+for custom parsing of the response. Use L</has_response> to determine if the
+response has a response.
 
 =head2 service
 
 This contains a L<URI> object that is the URL of the service. This would
-typically be the host and path part of the destination service.
+typically be the host and path part of the destination service. Use
+L</has_service> to determine if the response has a service.
 
 =head2 service_ticket
 
-This is the service ticket that has been granted for the service.
+This is the service ticket that has been granted for the service. Use
+L</has_service_ticket> to determine if the response has a service ticket.
 
 =head2 ticket_granting_cookie
 
 This is the ticket granting cookie that has been given to the user agent to
 allow for reauthentication with the CAS service in the future without
-providing a username and password.
+providing a username and password. Use L</has_ticket_granting_cookie> to
+determine if the response has a ticket granting cookie.
 
 =head1 METHODS
 
@@ -216,6 +223,30 @@ B<get_cookies(@list_of_cookie_names)>
 
 When given a list of cookie names, a hash is returned with only those cookies
 where the cookie name is the key and the value is the value.
+
+=head2 has_destination
+
+Returns a Boolean of weither or not the response has an associated
+L</destination>.
+
+=head2 has_response
+
+Returns a Boolean of weither or not the response has an associated
+L</response>.
+
+=head2 has_service
+
+Returns a Boolean of weither or not the response has an associated L</service>.
+
+=head2 has_service_ticket
+
+Returns a Boolean of weither or not the response has an associated
+L</service_ticket>.
+
+=head2 has_ticket_granting_cookie
+
+Returns a Boolean of weither or not the response has an associated
+L</ticket_granting_cookie>.
 
 =head2 is_success
 
