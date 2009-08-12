@@ -11,6 +11,7 @@ our $VERSION   = '0.02';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
+use HTML::LinkExtractor 0.13;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.77;
@@ -138,22 +139,52 @@ sub _determine_complete_login {
 		});
 	}
 
+	# This is for the service redirect link as a URI object
+	my $service_redirect;
+
 	if (defined $response->header('Location')) {
-		my $service_redirect = URI->new($response->header('Location'));
+		# Set the service redirect link from the Location header
+		$service_redirect = URI->new($response->header('Location'));
+	}
+	else {
+		# There was no Location header. This should not happen in the CAS
+		# protocol outline. But there is a new addon created by Eric Pierce
+		# http://www.ja-sig.org/wiki/display/CASUM/LDAP+Password+Policy+Enforcement
+		# which is ment to enforce password expiration policies.
+		# THIS SECTION LAST UPDATED 2009-08-12
 
-		if (defined(my $ticket = $service_redirect->query_param('ticket'))) {
-			# Store the destination
-			$response_data{destination} = $service_redirect->clone;
+		# Create a new link extractor to find the service link
+		my $link_extractor = HTML::LinkExtractor->new();
 
-			# Store the ticket
-			$response_data{service_ticket} = $ticket;
+		# Now parse the response content
+		$link_extractor->parse($response->content_ref);
 
-			# Remove the ticket from the query
-			$service_redirect->query_param_delete('ticket');
+		# Iterate through the links and find the service link
+		LINK: foreach my $link (@{$link_extractor->links}) {
+			if (exists $link->{href} && $link->{href} =~ m{ticket=ST-}msx) {
+				# Set the service redirect link from this link
+				$service_redirect = URI->new($link->{href});
 
-			# Store the service
-			$response_data{service} = $service_redirect->clone;
+				# Stop processing the links
+				last LINK;
+			}
 		}
+	}
+
+	# Process the service redirect link
+	if (defined $service_redirect
+	    && defined(my $ticket = $service_redirect->query_param('ticket'))) {
+		# Store the destination
+		$response_data{destination} = $service_redirect->clone;
+
+		# Store the ticket
+		$response_data{service_ticket} = $ticket;
+
+		# Remove the ticket from the query
+		$service_redirect->query_param_delete('ticket');
+
+		# Store the service
+		$response_data{service} = $service_redirect->clone;
 	}
 
 	my $cas_response = Authen::CAS::External::Response->new(
