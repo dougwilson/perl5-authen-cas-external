@@ -10,6 +10,7 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Authen/CAS/External.pm
+lib/Authen/CAS/External/FAQ.pod
 lib/Authen/CAS/External/Library.pm
 lib/Authen/CAS/External/Response.pm
 lib/Authen/CAS/External/UserAgent.pm
