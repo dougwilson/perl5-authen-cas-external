@@ -193,6 +193,27 @@ This method will authenticate against the CAS service using the presupplied
 username and password and will return a L<Authen::CAS::External::Response>
 object.
 
+This method takes a HASH with the following keys:
+
+=over
+
+=item gateway
+
+This is a Boolean of if the gateway parameter should be sent to the CAS server.
+The default is to not send any gateway parameter.
+
+=item renew
+
+This is a Boolean of if the renew parameter should be sent to the CAS server.
+The default is to not send any renew parameter.
+
+=item service
+
+This is a string that specifies the service value to send to the CAS server.
+The default is to not send any service parameter.
+
+=back
+
 =head2 get_cas_credentials
 
 This method is not actually used, but is required for classes to consume the
