@@ -165,22 +165,36 @@ constructor needs to be called to create an object to work with.
 
 This will construct a new object.
 
-=head3 cas_url
+=over
+
+=item new(%attributes)
+
+C<%attributes> is a HASH where the keys are attributes (specified in the
+L</ATTRIBUTES> section).
+
+=item new($attributes)
+
+C<$attributes> is a HASHREF where the keys are attributes (specified in the
+L</ATTRIBUTES> section).
+
+=head1 ATTRIBUTES
+
+=head2 cas_url
 
 This is the URL of the CAS site excluding /login. This is required and is a
 URI object.
 
-=head3 password
+=head2 password
 
 This is the password to use for logging in to the CAS site. When set, this
 clears the L</ticket_granting_cookie>.
 
-=head3 ticket_granting_cookie
+=head2 ticket_granting_cookie
 
 This is the ticket granting cookie to use for logging into the CAS site. This
 can be set to log in with just the cookie and no usernamd or password.
 
-=head3 username
+=head2 username
 
 This is the username to use for logging in to the CAS site. When set, this
 clears the L</ticket_granting_cookie>.
