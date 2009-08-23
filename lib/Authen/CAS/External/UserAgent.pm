@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.03';
+our $VERSION   = '0.04';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
@@ -453,7 +453,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 =head1 VERSION
 
 This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.03
+0.04
 
 =head1 SYNOPSIS
 
@@ -554,6 +554,8 @@ This is a Boolean to weither ot not to renew the session.
 =item * L<Scalar::Util> 1.14
 
 =item * L<URI> 1.22
+
+=item * L<URI::QueryParam>
 
 =item * L<namespace::clean> 0.04
 
