@@ -69,6 +69,14 @@ has cas_url => (
 	trigger       => \&_cas_url_trigger,
 );
 
+has _handler_owner_name => (
+	is  => 'ro',
+	isa => 'Num',
+
+	default  => sub { Scalar::Util::refaddr(shift); },
+	init_arg => undef,
+);
+
 # Methods
 
 sub service_request_url {
@@ -134,20 +142,23 @@ sub _add_user_agent_handlers {
 		m_host          => $cas_url->host,
 		m_method        => 'GET',
 		m_path_match    => qr{\A /login}msx,
-		owner           => $owner,
+		object_instance => $owner,
+		owner           => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
 		response_redirect => \&_process_login_page,
 		m_host            => $cas_url->host,
 		m_media_type      => 'html',
 		m_path_match      => qr{\A /login}msx,
-		owner             => $owner,
+		object_instance   => $owner,
+		owner             => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
-		response_done => \&_determine_complete_login,
-		m_host        => $cas_url->host,
-		m_path_match  => qr{\A /login}msx,
-		owner         => $owner,
+		response_done   => \&_determine_complete_login,
+		m_host          => $cas_url->host,
+		m_path_match    => qr{\A /login}msx,
+		object_instance => $owner,
+		owner           => $self->_handler_owner_name,
 	);
 
 	return;
@@ -174,7 +185,7 @@ sub _cas_url_trigger {
 
 sub _determine_complete_login {
 	my ($response, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	if ($response->request->method ne 'POST' && !$response->is_redirect) {
 		# Redriects are when the login process is completing
@@ -266,7 +277,7 @@ sub _determine_complete_login {
 
 sub _process_login_page {
 	my ($response, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	if ($response->request->method eq 'POST') {
 		if (!$self->has_previous_response) {
@@ -317,7 +328,7 @@ sub _process_login_page {
 
 sub _process_ticket_granting_cookie {
 	my ($request, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	# Clear previous response
 	$self->clear_previous_response;
@@ -371,16 +382,10 @@ sub _remove_user_agent_handlers {
 	$cas_url    ||= $self->cas_url;
 	$user_agent ||= $self->user_agent;
 
-	# Create the owner reference
-	my $owner = \$self;
-
-	# This is a reference to a weak reference to prevent circular references
-	Scalar::Util::weaken(${$owner});
-
 	# Remove the handlers in the user agent
 	$user_agent->remove_handler(undef,
 		m_host => $cas_url->host,
-		owner  => $owner,
+		owner  => $self->_handler_owner_name,
 	);
 
 	return;
@@ -542,7 +547,7 @@ This is a Boolean to weither ot not to renew the session.
 
 =item * L<LWP::UserAgent> 5.819
 
-=item * L<Moose::Role> 0.77
+=item * L<Moose::Role> 0.89
 
 =item * L<MooseX::Types::Moose>
 

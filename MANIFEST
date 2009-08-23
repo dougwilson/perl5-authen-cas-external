@@ -21,6 +21,7 @@ META.yml
 README
 t/00-load.t
 t/needtests.t
+t/switch_user_agents.t
 t/url.t
 xt/clean-namespaces.t
 xt/critic.t
