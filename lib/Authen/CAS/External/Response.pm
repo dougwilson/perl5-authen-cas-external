@@ -11,7 +11,7 @@ our $VERSION   = '0.03';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
-use Moose 0.77;
+use Moose 0.89;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
@@ -257,7 +257,7 @@ authentication.
 
 =over 4
 
-=item * L<Moose> 0.74
+=item * L<Moose> 0.89
 
 =item * L<MooseX::StrictConstructor> 0.08
 

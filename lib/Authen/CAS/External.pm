@@ -10,7 +10,7 @@ our $AUTHORITY = 'cpan:DOUGDUDE';
 our $VERSION   = '0.03';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
-use Moose 0.77;
+use Moose 0.89;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
@@ -247,7 +247,7 @@ matches the username set (and always should).
 
 =over 4
 
-=item * L<Moose> 0.77
+=item * L<Moose> 0.89
 
 =item * L<MooseX::StrictConstructor> 0.08
 

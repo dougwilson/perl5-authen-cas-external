@@ -24,7 +24,7 @@ requires:
   HTML::LinkExtractor: 0.13
   HTTP::Status: 5.817
   LWP::UserAgent: 5.819
-  Moose: 0.77
+  Moose: 0.89
   Moose::Role: 0.89
   MooseX::StrictConstructor: 0.08
   MooseX::Types: 0.08
