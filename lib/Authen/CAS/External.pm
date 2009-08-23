@@ -177,6 +177,8 @@ L</ATTRIBUTES> section).
 C<$attributes> is a HASHREF where the keys are attributes (specified in the
 L</ATTRIBUTES> section).
 
+=back
+
 =head1 ATTRIBUTES
 
 =head2 cas_url
