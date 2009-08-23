@@ -7,10 +7,10 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.03';
+our $VERSION   = '0.04';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
-use Moose 0.77;
+use Moose 0.89;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
@@ -134,7 +134,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External> version 0.03
+This documentation refers to L<Authen::CAS::External> version 0.04
 
 =head1 SYNOPSIS
 
@@ -165,22 +165,38 @@ constructor needs to be called to create an object to work with.
 
 This will construct a new object.
 
-=head3 cas_url
+=over
+
+=item new(%attributes)
+
+C<%attributes> is a HASH where the keys are attributes (specified in the
+L</ATTRIBUTES> section).
+
+=item new($attributes)
+
+C<$attributes> is a HASHREF where the keys are attributes (specified in the
+L</ATTRIBUTES> section).
+
+=back
+
+=head1 ATTRIBUTES
+
+=head2 cas_url
 
 This is the URL of the CAS site excluding /login. This is required and is a
 URI object.
 
-=head3 password
+=head2 password
 
 This is the password to use for logging in to the CAS site. When set, this
 clears the L</ticket_granting_cookie>.
 
-=head3 ticket_granting_cookie
+=head2 ticket_granting_cookie
 
 This is the ticket granting cookie to use for logging into the CAS site. This
 can be set to log in with just the cookie and no usernamd or password.
 
-=head3 username
+=head2 username
 
 This is the username to use for logging in to the CAS site. When set, this
 clears the L</ticket_granting_cookie>.
@@ -192,6 +208,27 @@ clears the L</ticket_granting_cookie>.
 This method will authenticate against the CAS service using the presupplied
 username and password and will return a L<Authen::CAS::External::Response>
 object.
+
+This method takes a HASH with the following keys:
+
+=over
+
+=item gateway
+
+This is a Boolean of if the gateway parameter should be sent to the CAS server.
+The default is to not send any gateway parameter.
+
+=item renew
+
+This is a Boolean of if the renew parameter should be sent to the CAS server.
+The default is to not send any renew parameter.
+
+=item service
+
+This is a string that specifies the service value to send to the CAS server.
+The default is to not send any service parameter.
+
+=back
 
 =head2 get_cas_credentials
 
@@ -210,7 +247,7 @@ matches the username set (and always should).
 
 =over 4
 
-=item * L<Moose> 0.77
+=item * L<Moose> 0.89
 
 =item * L<MooseX::StrictConstructor> 0.08
 

@@ -1,17 +1,23 @@
 Revision history for Authen-CAS-External
 
+0.04 Sun, August 23, 2009 02:11:42 -0500
+  * Added a FAQ document
+  * Changed required Moose to 0.89
+  * When the user_agent attribute is modified, the handlers are properly
+    removed from the previous user agent.
+
 0.03 Wed, August 12, 2009 11:41:13 -0500
-        [NOTE: This release contains a new feature, but no API changes]
-        You will want to depend on 0.03 if you want to get past a CAS site that
-        uses the LDAP Password Policy Enforcement add on provided at:
-        http://www.ja-sig.org/wiki/display/CASUM/LDAP+Password+Policy+Enforcement
-        * Added more documentation of features (though they are not new)
-        * Changed the license to be more clear
-        * New dependency of HTML::LinkExtract version 0.03
+  * [NOTE: This release contains a new feature, but no API changes]
+    You will want to depend on 0.03 if you want to get past a CAS site that
+    uses the LDAP Password Policy Enforcement add on provided at:
+    http://www.ja-sig.org/wiki/display/CASUM/LDAP+Password+Policy+Enforcement
+  * Added more documentation of features (though they are not new)
+  * Changed the license to be more clear
+  * New dependency of HTML::LinkExtract version 0.03
 
 0.02 Fri, July 31, 2009 21:23:30 -0500
-        Removed dependency on version.pm
-        Service URL can now end in / and in /login and will work fine.
+  * Removed dependency on version.pm
+  * Service URL can now end in / and in /login and will work fine.
 
 0.01 Sun, June 14, 2009 17:23:12 -0500
-        First release.
+  * First release.

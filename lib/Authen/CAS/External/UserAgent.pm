@@ -7,14 +7,14 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.03';
+our $VERSION   = '0.04';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
 use HTML::LinkExtractor 0.13;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
-use Moose::Role 0.77;
+use Moose::Role 0.89;
 use MooseX::Types::Moose qw(Bool Str);
 use Scalar::Util 1.14;
 use URI 1.22;
@@ -58,7 +58,7 @@ has user_agent => (
 	},
 	documentation => q{The LWP::UserAgent to use to make requests},
 	handles       => ['get'],
-	trigger       => \&_hook_ua,
+	trigger       => \&_user_agent_trigger,
 );
 has cas_url => (
 	is  => 'rw',
@@ -66,7 +66,15 @@ has cas_url => (
 
 	documentation => q{The URL of the CAS site. This does not include /login},
 	required      => 1,
-	trigger       => \&_hook_ua,
+	trigger       => \&_cas_url_trigger,
+);
+
+has _handler_owner_name => (
+	is  => 'ro',
+	isa => 'Num',
+
+	default  => sub { Scalar::Util::refaddr(shift); },
+	init_arg => undef,
 );
 
 # Methods
@@ -112,9 +120,72 @@ sub service_request_url {
 
 # Private Methods
 
+sub _add_user_agent_handlers {
+	my ($self, %args) = @_;
+
+	# Get the arguments
+	my ($user_agent, $cas_url) = @args{qw(user_agent cas_url)};
+
+	# Default arguments
+	$cas_url    ||= $self->cas_url;
+	$user_agent ||= $self->user_agent;
+
+	# Create the owner reference
+	my $owner = \$self;
+
+	# This is a reference to a weak reference to prevent circular references
+	Scalar::Util::weaken(${$owner});
+
+	# Add handlers
+	$user_agent->add_handler(
+		request_prepare => \&_process_ticket_granting_cookie,
+		m_host          => $cas_url->host,
+		m_method        => 'GET',
+		m_path_match    => qr{\A /login}msx,
+		object_instance => $owner,
+		owner           => $self->_handler_owner_name,
+	);
+	$user_agent->add_handler(
+		response_redirect => \&_process_login_page,
+		m_host            => $cas_url->host,
+		m_media_type      => 'html',
+		m_path_match      => qr{\A /login}msx,
+		object_instance   => $owner,
+		owner             => $self->_handler_owner_name,
+	);
+	$user_agent->add_handler(
+		response_done   => \&_determine_complete_login,
+		m_host          => $cas_url->host,
+		m_path_match    => qr{\A /login}msx,
+		object_instance => $owner,
+		owner           => $self->_handler_owner_name,
+	);
+
+	return;
+}
+
+sub _cas_url_trigger {
+	my ($self, $cas_url, $previous_cas_url) = @_;
+
+	if (defined $previous_cas_url) {
+		# Remove the handlers from the current user agent for the previous
+		# CAS URL.
+		$self->_remove_user_agent_handlers(
+			cas_url => $previous_cas_url,
+		);
+	}
+
+	# Now add the handlers back to the user agent for the new CAS URL.
+	$self->_add_user_agent_handlers(
+		cas_url => $cas_url,
+	);
+
+	return;
+}
+
 sub _determine_complete_login {
 	my ($response, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	if ($response->request->method ne 'POST' && !$response->is_redirect) {
 		# Redriects are when the login process is completing
@@ -204,43 +275,9 @@ sub _determine_complete_login {
 	return;
 }
 
-sub _hook_ua {
-	my ($self) = @_;
-
-	# Create the owner reference
-	my $owner = \$self;
-
-	# This is a reference to a weak reference to prevent circular references
-	Scalar::Util::weaken(${$owner});
-
-	# Add handlers
-	$self->user_agent->add_handler(
-		request_prepare => \&_process_ticket_granting_cookie,
-		m_host          => $self->cas_url->host,
-		m_method        => 'GET',
-		m_path_match    => qr{\A /login}msx,
-		owner           => $owner,
-	);
-	$self->user_agent->add_handler(
-		response_redirect => \&_process_login_page,
-		m_host            => $self->cas_url->host,
-		m_media_type      => 'html',
-		m_path_match      => qr{\A /login}msx,
-		owner             => $owner,
-	);
-	$self->user_agent->add_handler(
-		response_done => \&_determine_complete_login,
-		m_host        => $self->cas_url->host,
-		m_path_match  => qr{\A /login}msx,
-		owner         => $owner,
-	);
-
-	return;
-}
-
 sub _process_login_page {
 	my ($response, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	if ($response->request->method eq 'POST') {
 		if (!$self->has_previous_response) {
@@ -291,7 +328,7 @@ sub _process_login_page {
 
 sub _process_ticket_granting_cookie {
 	my ($request, $user_agent, $info) = @_;
-	my $self = ${$info->{owner}};
+	my $self = ${$info->{object_instance}};
 
 	# Clear previous response
 	$self->clear_previous_response;
@@ -335,6 +372,43 @@ sub _process_ticket_granting_cookie {
 	return;
 }
 
+sub _remove_user_agent_handlers {
+	my ($self, %args) = @_;
+
+	# Get the arguments
+	my ($user_agent, $cas_url) = @args{qw(user_agent cas_url)};
+
+	# Default arguments
+	$cas_url    ||= $self->cas_url;
+	$user_agent ||= $self->user_agent;
+
+	# Remove the handlers in the user agent
+	$user_agent->remove_handler(undef,
+		m_host => $cas_url->host,
+		owner  => $self->_handler_owner_name,
+	);
+
+	return;
+}
+
+sub _user_agent_trigger {
+	my ($self, $user_agent, $previous_user_agent) = @_;
+
+	if (defined $previous_user_agent) {
+		# Remove the handlers from the previous user agent
+		$self->_remove_user_agent_handlers(
+			user_agent => $previous_user_agent,
+		);
+	}
+
+	# Now add the handlers to the new user agent
+	$self->_add_user_agent_handlers(
+		user_agent => $user_agent,
+	);
+
+	return;
+}
+
 #
 # CONSTRUCTOR-RELATED METHODS
 #
@@ -343,7 +417,7 @@ sub BUILD {
 	my ($self) = @_;
 
 	# Hook the respose handler
-	$self->_hook_ua();
+	$self->_add_user_agent_handlers();
 
 	return;
 }
@@ -379,7 +453,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 =head1 VERSION
 
 This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.03
+0.04
 
 =head1 SYNOPSIS
 
@@ -473,13 +547,15 @@ This is a Boolean to weither ot not to renew the session.
 
 =item * L<LWP::UserAgent> 5.819
 
-=item * L<Moose::Role> 0.77
+=item * L<Moose::Role> 0.89
 
 =item * L<MooseX::Types::Moose>
 
 =item * L<Scalar::Util> 1.14
 
 =item * L<URI> 1.22
+
+=item * L<URI::QueryParam>
 
 =item * L<namespace::clean> 0.04
 

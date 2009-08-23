@@ -7,11 +7,11 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.03';
+our $VERSION   = '0.04';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
-use Moose 0.77;
+use Moose 0.89;
 use MooseX::StrictConstructor 0.08;
 use MooseX::Types::Moose qw(Str);
 use URI 1.22;
@@ -145,7 +145,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Response> version 0.03
+This documentation refers to L<Authen::CAS::External::Response> version 0.04
 
 =head1 SYNOPSIS
 
@@ -257,13 +257,13 @@ authentication.
 
 =over 4
 
-=item * L<Moose> 0.74
+=item * L<LWP::UserAgent> 5.819
+
+=item * L<Moose> 0.89
 
 =item * L<MooseX::StrictConstructor> 0.08
 
-=item * L<Authen::CAS::Client> 0.03
-
-=item * L<WWW::Mechanize> 1.54
+=item * L<URI> 1.22
 
 =item * L<namespace::clean> 0.04
 

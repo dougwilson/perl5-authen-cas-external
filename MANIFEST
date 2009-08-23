@@ -10,6 +10,7 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Authen/CAS/External.pm
+lib/Authen/CAS/External/FAQ.pod
 lib/Authen/CAS/External/Library.pm
 lib/Authen/CAS/External/Response.pm
 lib/Authen/CAS/External/UserAgent.pm
@@ -20,6 +21,7 @@ META.yml
 README
 t/00-load.t
 t/needtests.t
+t/switch_user_agents.t
 t/url.t
 xt/clean-namespaces.t
 xt/critic.t
