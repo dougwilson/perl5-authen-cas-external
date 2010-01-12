@@ -28,6 +28,13 @@ has destination => (
 	clearer   => '_clear_destination',
 	predicate => 'has_destination',
 );
+has notification => (
+	is  => 'ro',
+	isa => Str,
+
+	clearer   => '_clear_notification',
+	predicate => 'has_notification',
+);
 has response => (
 	is  => 'ro',
 	isa => 'HTTP::Response',
@@ -181,6 +188,16 @@ response has a destination address.
     my $service_page = $user_agent->get($response->destination);
   }
 
+=head2 notification
+
+This contains a string with a notification for the user from the CAS server.
+This is usually not set, but can be if the server uses something which tells
+the user their password is going to expire.
+
+  if ($response->has_notification) {
+    warn $response->notification;
+  }
+
 =head2 response
 
 This contains a L<HTTP::Response> object that is the response that occurred
@@ -228,6 +245,11 @@ where the cookie name is the key and the value is the value.
 
 Returns a Boolean of weither or not the response has an associated
 L</destination>.
+
+=head2 has_notification
+
+Returns a Boolean of weither or not the response has an associated
+L</notification>.
 
 =head2 has_response
 

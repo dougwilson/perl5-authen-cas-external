@@ -11,7 +11,7 @@ our $VERSION   = '0.04';
 
 use Authen::CAS::External::Response;
 use HTML::Form 5.817;
-use HTML::LinkExtractor 0.13;
+use HTML::TokeParser 3.00;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.89;
@@ -222,23 +222,22 @@ sub _determine_complete_login {
 		# protocol outline. But there is a new addon created by Eric Pierce
 		# http://www.ja-sig.org/wiki/display/CASUM/LDAP+Password+Policy+Enforcement
 		# which is ment to enforce password expiration policies.
-		# THIS SECTION LAST UPDATED 2009-08-12
+		# THIS SECTION LAST UPDATED 2010-01-11
 
-		# Create a new link extractor to find the service link
-		my $link_extractor = HTML::LinkExtractor->new();
+		# Get the service redirect link from the page
+		my $destination = _extract_service_redirect_link($response);
 
-		# Now parse the response content
-		$link_extractor->parse($response->content_ref);
+		if (defined $destination) {
+			# Set the service redirect
+			$response_data{destination} = $destination;
+		}
 
-		# Iterate through the links and find the service link
-		LINK: foreach my $link (@{$link_extractor->links}) {
-			if (exists $link->{href} && $link->{href} =~ m{ticket=ST-}msx) {
-				# Set the service redirect link from this link
-				$service_redirect = URI->new($link->{href});
+		# Get the notification from the page
+		my $notification = _extract_notification($response);
 
-				# Stop processing the links
-				last LINK;
-			}
+		if (defined $notification) {
+			# Set the notification
+			$response_data{notification} = $notification;
 		}
 	}
 
@@ -273,6 +272,77 @@ sub _determine_complete_login {
 	}
 
 	return;
+}
+
+sub _extract_notification {
+	my ($response) = @_;
+
+	# For the notification to be populated into
+	my $notification;
+
+	# Prase the document using HTML::TokeParser
+	my $parser = HTML::TokeParser->new($response->content_ref);
+
+	# Cycle through the tokens on the page
+	TOKEN: while (my $token = $parser->get_token) {
+		# Move to the next token if this is not a start tag
+		next TOKEN
+			if $token->[0] ne q{S};
+
+		# Get the tag of this start tag
+		my $tag = lc $token->[1];
+
+		if (exists $token->[2]->{class}
+		    && defined $token->[2]->{class}
+		    && $token->[2]->{class} =~ m{\berrors?\b}imsx) {
+			# This token has a class of "error" or "errors" and so should be
+			# this notification.
+			$notification = $parser->get_trimmed_text("/$tag");
+
+			# End token parsing
+			last TOKEN;
+		}
+	}
+
+	# Return the notification
+	return $notification;
+}
+
+sub _extract_service_redirect_link {
+	my ($response) = @_;
+
+	# For the service redirect to be populated into
+	my $service_redirect;
+
+	# Prase the document using HTML::TokeParser
+	my $parser = HTML::TokeParser->new($response->content_ref);
+
+	# Cycle through the tokens on the page
+	TOKEN: while (my $token = $parser->get_token) {
+		# Move to the next token if this is not a start tag
+		next TOKEN
+			if $token->[0] ne q{S};
+
+		# Get the tag of this start tag
+		my $tag = lc $token->[1];
+
+		if ($tag eq q{a}) {
+			# This is the start of an anchor tag. Anchor tags need to be
+			# scanned for the service redirect.
+			if (exists $token->[2]->{href} && $token->[2]->{href} =~ m{ticket=ST-}msx) {
+				# This is the service redirect link.
+
+				# Set the service redirect link from this link
+				$service_redirect = URI->new($token->[2]->{href});
+
+				# End the parsing
+				last TOKEN;
+			}
+		}
+	}
+
+	# Return the service redirect
+	return $service_redirect;
 }
 
 sub _process_login_page {
@@ -541,7 +611,7 @@ This is a Boolean to weither ot not to renew the session.
 
 =item * L<HTML::Form> 5.817
 
-=item * L<HTML::LinkExtractor> 0.13
+=item * L<HTML::TokeParser> 3.00
 
 =item * L<HTTP::Status> 5.817
 

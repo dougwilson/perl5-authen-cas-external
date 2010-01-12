@@ -8,7 +8,7 @@ license  'perl';
 build_requires 'Test::More';
 
 requires 'HTML::Form'                => '5.817';
-requires 'HTML::LinkExtractor'       => '0.13';
+requires 'HTML::TokeParser'          => '3.00';
 requires 'HTTP::Status'              => '5.817';
 requires 'LWP::UserAgent'            => '5.819';
 requires 'Moose'                     => '0.89';
