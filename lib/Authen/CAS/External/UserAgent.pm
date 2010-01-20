@@ -16,6 +16,7 @@ use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.89;
 use MooseX::Types::Moose qw(Bool Str);
+use MooseX::Types::URI qw(Uri);
 use Scalar::Util 1.14;
 use URI 1.22;
 use URI::QueryParam;
@@ -62,9 +63,10 @@ has user_agent => (
 );
 has cas_url => (
 	is  => 'rw',
-	isa => 'URI',
+	isa => Uri,
 
 	documentation => q{The URL of the CAS site. This does not include /login},
+	coerce        => 1,
 	required      => 1,
 	trigger       => \&_cas_url_trigger,
 );
@@ -620,6 +622,8 @@ This is a Boolean to weither ot not to renew the session.
 =item * L<Moose::Role> 0.89
 
 =item * L<MooseX::Types::Moose>
+
+=item * L<MooseX::Types::URI>
 
 =item * L<Scalar::Util> 1.14
 

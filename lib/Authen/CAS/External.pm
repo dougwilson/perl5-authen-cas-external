@@ -139,7 +139,7 @@ This documentation refers to L<Authen::CAS::External> version 0.04
 =head1 SYNOPSIS
 
   my $cas_auth = Authen::CAS::External->new(
-      cas_url => URI->new('https://cas.mydomain.com/'),
+      cas_url => 'https://cas.mydomain.com/',
   );
 
   # Set the username and password
@@ -183,8 +183,8 @@ L</ATTRIBUTES> section).
 
 =head2 cas_url
 
-This is the URL of the CAS site excluding /login. This is required and is a
-URI object.
+This is the URL of the CAS site excluding /login. This can be a URI object
+or a string of a URL.
 
 =head2 password
 

@@ -29,6 +29,7 @@ requires:
   MooseX::StrictConstructor: 0.08
   MooseX::Types: 0.08
   MooseX::Types::Moose: 0
+  MooseX::Types::URI: 0
   Scalar::Util: 1.14
   URI: 1.22
   URI::QueryParam: 0

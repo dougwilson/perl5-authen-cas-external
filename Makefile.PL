@@ -5,7 +5,12 @@ all_from 'lib/Authen/CAS/External.pm';
 author   'Douglas Christopher Wilson <doug@somethingdoug.com>';
 license  'perl';
 
+# Requirements for the tests in t/
 build_requires 'Test::More';
+
+# Requirements for the modules in lib/
+requires
+	'MooseX::Types::URI' => 0;
 
 requires 'HTML::Form'                => '5.817';
 requires 'HTML::TokeParser'          => '3.00';
