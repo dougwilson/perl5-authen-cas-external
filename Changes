@@ -1,6 +1,12 @@
 Revision history for Authen-CAS-External
 ========================================
 
+0.05 Wed, January 20, 2010 15:52:12 -0500
+  * Added support for notification scraping from the CAS website.
+    This is Authen::CAS::External::Response->notification
+  * The cas_url attribute on Authen::CAS::External can now take a
+    URL as a string and will automatically change it to a URI object.
+
 0.04 Sun, August 23, 2009 02:11:42 -0500
   * Added a FAQ document
   * Changed required Moose to 0.89
