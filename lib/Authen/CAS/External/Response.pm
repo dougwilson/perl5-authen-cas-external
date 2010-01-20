@@ -190,6 +190,8 @@ response has a destination address.
 
 =head2 notification
 
+B<Added in version 0.05>; be sure to require this version for this feature.
+
 This contains a string with a notification for the user from the CAS server.
 This is usually not set, but can be if the server uses something which tells
 the user their password is going to expire.
@@ -247,6 +249,8 @@ Returns a Boolean of weither or not the response has an associated
 L</destination>.
 
 =head2 has_notification
+
+B<Added in version 0.05>; be sure to require this version for this feature.
 
 Returns a Boolean of weither or not the response has an associated
 L</notification>.
