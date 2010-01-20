@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.04';
+our $VERSION   = '0.05';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
@@ -27,6 +27,13 @@ has destination => (
 
 	clearer   => '_clear_destination',
 	predicate => 'has_destination',
+);
+has notification => (
+	is  => 'ro',
+	isa => Str,
+
+	clearer   => '_clear_notification',
+	predicate => 'has_notification',
 );
 has response => (
 	is  => 'ro',
@@ -145,7 +152,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Response> version 0.04
+This documentation refers to L<Authen::CAS::External::Response> version 0.05
 
 =head1 SYNOPSIS
 
@@ -179,6 +186,18 @@ response has a destination address.
 
   if ($response->has_destination) {
     my $service_page = $user_agent->get($response->destination);
+  }
+
+=head2 notification
+
+B<Added in version 0.05>; be sure to require this version for this feature.
+
+This contains a string with a notification for the user from the CAS server.
+This is usually not set, but can be if the server uses something which tells
+the user their password is going to expire.
+
+  if ($response->has_notification) {
+    warn $response->notification;
   }
 
 =head2 response
@@ -228,6 +247,13 @@ where the cookie name is the key and the value is the value.
 
 Returns a Boolean of weither or not the response has an associated
 L</destination>.
+
+=head2 has_notification
+
+B<Added in version 0.05>; be sure to require this version for this feature.
+
+Returns a Boolean of weither or not the response has an associated
+L</notification>.
 
 =head2 has_response
 

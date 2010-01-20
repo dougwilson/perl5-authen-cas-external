@@ -80,14 +80,14 @@ plan tests => scalar map { keys %{$test_cases{$_}}, 1 } keys %test_cases;
 
 # Create a new object
 my $authen = Authen::CAS::External->new(
-	cas_url => URI->new('https://cas.example.net'),
+	cas_url => 'https://cas.example.net',
 );
 
 foreach my $base_url (sort {$a le $b} keys %test_cases) {
 	my %is_cases = %{$test_cases{$base_url}};
 
 	# Set the base URL
-	$authen->cas_url(URI->new($base_url));
+	$authen->cas_url($base_url);
 
 	is($authen->cas_url, $base_url, "URL $base_url set correctly");
 

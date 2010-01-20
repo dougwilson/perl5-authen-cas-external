@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.04';
+our $VERSION   = '0.05';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
 use Moose 0.89;
@@ -134,12 +134,12 @@ would.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External> version 0.04
+This documentation refers to L<Authen::CAS::External> version 0.05
 
 =head1 SYNOPSIS
 
   my $cas_auth = Authen::CAS::External->new(
-      cas_url => URI->new('https://cas.mydomain.com/'),
+      cas_url => 'https://cas.mydomain.com/',
   );
 
   # Set the username and password
@@ -183,8 +183,8 @@ L</ATTRIBUTES> section).
 
 =head2 cas_url
 
-This is the URL of the CAS site excluding /login. This is required and is a
-URI object.
+This is the URL of the CAS site excluding /login. This can be a URI object
+or a string of a URL.
 
 =head2 password
 
