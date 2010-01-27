@@ -581,7 +581,44 @@ the service that is about to be logged into. This function is expected to
 return a string that is the ticket granting cookie for the CAS service, or
 nothing.
 
+=head1 ATTRIBUTES
+
+=head2 cas_url
+
+This is a L<URI> object of the base URL of the CAS site. This is typically
+the path before C</login>. A string may be supplied and will automatically
+be converted to a L<URI> object.
+
+=head2 previous_response
+
+This holds the response object L<Authen::CAS::External::Response> from the
+last executed CAS navigation.
+
+=head2 redirect_back
+
+This is a Boolean that determines if the L</user_agent> will navigate
+outside of the L</cas_url>. The default is C<0>.
+
+=head2 user_agent
+
+This is a L<LWP::UserAgent> that is used to navigate the CAS site. The default
+is L<LWP::UserAgent> with an in-memory cookie jar and allows the C<POST>
+method to be redirectable.
+
 =head1 METHODS
+
+=head2 clear_previous_response
+
+This will clear the L</previous_response> attribute.
+
+=head2 get
+
+This is an alias to the C<get> method of the L</user_agent>.
+
+=head2 has_previous_response
+
+This will return if there is a value present in the L</previous_response>
+attribute.
 
 =head2 service_request_url
 
