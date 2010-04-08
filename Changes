@@ -1,7 +1,7 @@
 Revision history for Authen-CAS-External
 ========================================
 
-0.06 TO BE RELEASED
+0.06 Thu, April 8, 2010 18:34:53 -0400
   * Fixed bug where if the CAS deployment was in a sub path the module would
     always fail to retrieve the response.
 
@@ -11,13 +11,13 @@ Revision history for Authen-CAS-External
   * The cas_url attribute on Authen::CAS::External can now take a
     URL as a string and will automatically change it to a URI object.
 
-0.04 Sun, August 23, 2009 02:11:42 -0500
+0.04 Sun, August 23, 2009 02:11:42 -0400
   * Added a FAQ document
   * Changed required Moose to 0.89
   * When the user_agent attribute is modified, the handlers are properly
     removed from the previous user agent.
 
-0.03 Wed, August 12, 2009 11:41:13 -0500
+0.03 Wed, August 12, 2009 11:41:13 -0400
   * [NOTE: This release contains a new feature, but no API changes]
     You will want to depend on 0.03 if you want to get past a CAS site that
     uses the LDAP Password Policy Enforcement add on provided at:
@@ -26,9 +26,9 @@ Revision history for Authen-CAS-External
   * Changed the license to be more clear
   * New dependency of HTML::LinkExtract version 0.03
 
-0.02 Fri, July 31, 2009 21:23:30 -0500
+0.02 Fri, July 31, 2009 21:23:30 -0400
   * Removed dependency on version.pm
   * Service URL can now end in / and in /login and will work fine.
 
-0.01 Sun, June 14, 2009 17:23:12 -0500
+0.01 Sun, June 14, 2009 17:23:12 -0400
   * First release.
