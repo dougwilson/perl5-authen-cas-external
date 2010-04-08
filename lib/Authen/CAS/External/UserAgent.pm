@@ -593,8 +593,6 @@ nothing.
 
 =head2 cas_url
 
-B<Added in version 0.06>; be sure to require this version for this feature.
-
 This is a L<URI> object of the base URL of the CAS site. This is typically
 the path before C</login>. A string may be supplied and will automatically
 be converted to a L<URI> object.
@@ -641,6 +639,8 @@ arguments:
 =over 4
 
 =item * cas_url
+
+B<Added in version 0.06>; be sure to require this version for this feature.
 
 This is the URL of the CAS deployment to use. By default this will use the
 L</cas_url> attribute. This can be either a L<URI|URI> object or a string.
