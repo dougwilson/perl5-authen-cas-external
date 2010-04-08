@@ -34,8 +34,5 @@ author_requires
 # Enable tests to be in multi-level directories
 tests_recursive;
 
-# Author tests in xt/
-recursive_author_tests('xt');
-
 WriteAll;
 

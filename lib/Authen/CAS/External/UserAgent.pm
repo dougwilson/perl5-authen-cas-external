@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 
 use Authen::CAS::External::Response 0.05;
 use HTML::Form 5.817;
@@ -84,8 +84,12 @@ has _handler_owner_name => (
 sub service_request_url {
 	my ($self, %args) = @_;
 
+	# Get the CAS URL to use
+	my $cas_url = exists $args{cas_url} ? $args{cas_url}
+	                                    : $self->cas_url;
+
 	# Create the beginning of the URL as a URI
-	my $url = $self->cas_url->clone;
+	my $url = URI->new($cas_url);
 
 	# Get the URL path
 	my @url_path = $url->path_segments;
@@ -132,6 +136,10 @@ sub _add_user_agent_handlers {
 	$cas_url    ||= $self->cas_url;
 	$user_agent ||= $self->user_agent;
 
+	# Get fully-qualified host and path
+	my ($cas_host, $cas_path) = map { $_->host, $_->path }
+		$self->service_request_url(cas_url => $cas_url);
+
 	# Create the owner reference
 	my $owner = \$self;
 
@@ -141,24 +149,24 @@ sub _add_user_agent_handlers {
 	# Add handlers
 	$user_agent->add_handler(
 		request_prepare => \&_process_ticket_granting_cookie,
-		m_host          => $cas_url->host,
+		m_host          => $cas_host,
 		m_method        => 'GET',
-		m_path_match    => qr{\A /login}msx,
+		m_path_match    => qr{\A \Q$cas_path\E}msx,
 		object_instance => $owner,
 		owner           => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
 		response_redirect => \&_process_login_page,
-		m_host            => $cas_url->host,
+		m_host            => $cas_host,
 		m_media_type      => 'html',
-		m_path_match      => qr{\A /login}msx,
+		m_path_match      => qr{\A \Q$cas_path\E}msx,
 		object_instance   => $owner,
 		owner             => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
 		response_done   => \&_determine_complete_login,
-		m_host          => $cas_url->host,
-		m_path_match    => qr{\A /login}msx,
+		m_host          => $cas_host,
+		m_path_match    => qr{\A \Q$cas_path\E}msx,
 		object_instance => $owner,
 		owner           => $self->_handler_owner_name,
 	);
@@ -525,7 +533,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 =head1 VERSION
 
 This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.05
+0.06
 
 =head1 SYNOPSIS
 
@@ -581,7 +589,44 @@ the service that is about to be logged into. This function is expected to
 return a string that is the ticket granting cookie for the CAS service, or
 nothing.
 
+=head1 ATTRIBUTES
+
+=head2 cas_url
+
+This is a L<URI> object of the base URL of the CAS site. This is typically
+the path before C</login>. A string may be supplied and will automatically
+be converted to a L<URI> object.
+
+=head2 previous_response
+
+This holds the response object L<Authen::CAS::External::Response> from the
+last executed CAS navigation.
+
+=head2 redirect_back
+
+This is a Boolean that determines if the L</user_agent> will navigate
+outside of the L</cas_url>. The default is C<0>.
+
+=head2 user_agent
+
+This is a L<LWP::UserAgent> that is used to navigate the CAS site. The default
+is L<LWP::UserAgent> with an in-memory cookie jar and allows the C<POST>
+method to be redirectable.
+
 =head1 METHODS
+
+=head2 clear_previous_response
+
+This will clear the L</previous_response> attribute.
+
+=head2 get
+
+This is an alias to the C<get> method of the L</user_agent>.
+
+=head2 has_previous_response
+
+This will return if there is a value present in the L</previous_response>
+attribute.
 
 =head2 service_request_url
 
@@ -593,17 +638,24 @@ arguments:
 
 =over 4
 
+=item * cas_url
+
+B<Added in version 0.06>; be sure to require this version for this feature.
+
+This is the URL of the CAS deployment to use. By default this will use the
+L</cas_url> attribute. This can be either a L<URI|URI> object or a string.
+
 =item * service
 
 This is a string of the service URL to log in to.
 
 =item * gateway
 
-This is a Boolean of weither or not to use gateway login mode.
+This is a Boolean of whether or not to use gateway login mode.
 
 =item * renew
 
-This is a Boolean to weither ot not to renew the session.
+This is a Boolean to whether or not to renew the session.
 
 =back
 

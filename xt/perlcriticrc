@@ -13,3 +13,6 @@ severity = 5
 
 [TestingAndDebugging::RequireUseWarnings]
 severity = 5
+
+[Documentation::PodSpelling]
+stop_words = CAS login CPAN AnnoCPAN username ServiceTicket TicketGrantingCookie HASHREF perldoc CPAN's UserAgent redirectable
