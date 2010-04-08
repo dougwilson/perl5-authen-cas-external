@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 
 use Authen::CAS::External::Response 0.05;
 use HTML::Form 5.817;
@@ -533,7 +533,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 =head1 VERSION
 
 This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.05
+0.06
 
 =head1 SYNOPSIS
 

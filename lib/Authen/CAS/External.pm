@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.05';
+our $VERSION   = '0.06';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
 use Moose 0.89;
@@ -134,7 +134,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External> version 0.05
+This documentation refers to L<Authen::CAS::External> version 0.06
 
 =head1 SYNOPSIS
 
