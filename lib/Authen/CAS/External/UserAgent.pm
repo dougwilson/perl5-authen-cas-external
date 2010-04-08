@@ -651,11 +651,11 @@ This is a string of the service URL to log in to.
 
 =item * gateway
 
-This is a Boolean of weither or not to use gateway login mode.
+This is a Boolean of whether or not to use gateway login mode.
 
 =item * renew
 
-This is a Boolean to weither ot not to renew the session.
+This is a Boolean to whether or not to renew the session.
 
 =back
 

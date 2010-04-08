@@ -194,7 +194,7 @@ clears the L</ticket_granting_cookie>.
 =head2 ticket_granting_cookie
 
 This is the ticket granting cookie to use for logging into the CAS site. This
-can be set to log in with just the cookie and no usernamd or password.
+can be set to log in with just the cookie and no username or password.
 
 =head2 username
 
@@ -205,7 +205,7 @@ clears the L</ticket_granting_cookie>.
 
 =head2 authenticate
 
-This method will authenticate against the CAS service using the presupplied
+This method will authenticate against the CAS service using the already supplied
 username and password and will return a L<Authen::CAS::External::Response>
 object.
 
@@ -238,7 +238,7 @@ return the currently set username and password to the user agent.
 
 =head2 get_cas_ticket_granting_cookie
 
-This method is not actually usedm but is required for classes to consume the
+This method is not actually used but is required for classes to consume the
 L<Authen::CAS::External::UserAgent> role as this class does. This method will
 return the currently set ticket granting cookie if the username requested
 matches the username set (and always should).
@@ -300,10 +300,6 @@ L<http://cpanratings.perl.org/d/Authen-CAS-External>
 L<http://search.cpan.org/dist/Authen-CAS-External/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 

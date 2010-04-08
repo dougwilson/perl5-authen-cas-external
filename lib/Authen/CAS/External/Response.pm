@@ -221,7 +221,7 @@ L</has_service_ticket> to determine if the response has a service ticket.
 =head2 ticket_granting_cookie
 
 This is the ticket granting cookie that has been given to the user agent to
-allow for reauthentication with the CAS service in the future without
+allow for re-authentication with the CAS service in the future without
 providing a username and password. Use L</has_ticket_granting_cookie> to
 determine if the response has a ticket granting cookie.
 
@@ -229,7 +229,7 @@ determine if the response has a ticket granting cookie.
 
 =head2 get_cookies
 
-This method is for convience pruposes. Using this method, a HEAD request
+This method is for convenience purposes. Using this method, a HEAD request
 will be made to the destination URL and will return a hash of the cookie
 names and their values that would have been set.
 
@@ -245,38 +245,38 @@ where the cookie name is the key and the value is the value.
 
 =head2 has_destination
 
-Returns a Boolean of weither or not the response has an associated
+Returns a Boolean of whether or not the response has an associated
 L</destination>.
 
 =head2 has_notification
 
 B<Added in version 0.05>; be sure to require this version for this feature.
 
-Returns a Boolean of weither or not the response has an associated
+Returns a Boolean of whether or not the response has an associated
 L</notification>.
 
 =head2 has_response
 
-Returns a Boolean of weither or not the response has an associated
+Returns a Boolean of whether or not the response has an associated
 L</response>.
 
 =head2 has_service
 
-Returns a Boolean of weither or not the response has an associated L</service>.
+Returns a Boolean of whether or not the response has an associated L</service>.
 
 =head2 has_service_ticket
 
-Returns a Boolean of weither or not the response has an associated
+Returns a Boolean of whether or not the response has an associated
 L</service_ticket>.
 
 =head2 has_ticket_granting_cookie
 
-Returns a Boolean of weither or not the response has an associated
+Returns a Boolean of whether or not the response has an associated
 L</ticket_granting_cookie>.
 
 =head2 is_success
 
-Returns a Boolean of weither or not this response indicates a successful
+Returns a Boolean of whether or not this response indicates a successful
 authentication.
 
 =head1 DEPENDENCIES

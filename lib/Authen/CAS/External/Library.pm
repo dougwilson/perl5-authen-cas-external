@@ -62,11 +62,11 @@ No methods.
 
 =item * ServiceTicket
 
-Provides no coersons.
+Provides no coercions.
 
 =item * TicketGrantingCookie
 
-Provides no coersons.
+Provides no coercions.
 
 =back
 
