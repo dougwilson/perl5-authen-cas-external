@@ -1,6 +1,10 @@
 Revision history for Authen-CAS-External
 ========================================
 
+0.06 TO BE RELEASED
+  * Fixed bug where if the CAS deployment was in a sub path the module would
+    always fail to retrieve the response.
+
 0.05 Wed, January 20, 2010 15:52:12 -0500
   * Added support for notification scraping from the CAS website.
     This is Authen::CAS::External::Response->notification

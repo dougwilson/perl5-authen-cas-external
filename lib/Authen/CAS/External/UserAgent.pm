@@ -84,8 +84,12 @@ has _handler_owner_name => (
 sub service_request_url {
 	my ($self, %args) = @_;
 
+	# Get the CAS URL to use
+	my $cas_url = exists $args{cas_url} ? $args{cas_url}
+	                                    : $self->cas_url;
+
 	# Create the beginning of the URL as a URI
-	my $url = $self->cas_url->clone;
+	my $url = URI->new($cas_url);
 
 	# Get the URL path
 	my @url_path = $url->path_segments;
@@ -132,6 +136,10 @@ sub _add_user_agent_handlers {
 	$cas_url    ||= $self->cas_url;
 	$user_agent ||= $self->user_agent;
 
+	# Get fully-qualified host and path
+	my ($cas_host, $cas_path) = map { $_->host, $_->path }
+		$self->service_request_url(cas_url => $cas_url);
+
 	# Create the owner reference
 	my $owner = \$self;
 
@@ -141,24 +149,24 @@ sub _add_user_agent_handlers {
 	# Add handlers
 	$user_agent->add_handler(
 		request_prepare => \&_process_ticket_granting_cookie,
-		m_host          => $cas_url->host,
+		m_host          => $cas_host,
 		m_method        => 'GET',
-		m_path_match    => qr{\A /login}msx,
+		m_path_match    => qr{\A \Q$cas_path\E}msx,
 		object_instance => $owner,
 		owner           => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
 		response_redirect => \&_process_login_page,
-		m_host            => $cas_url->host,
+		m_host            => $cas_host,
 		m_media_type      => 'html',
-		m_path_match      => qr{\A /login}msx,
+		m_path_match      => qr{\A \Q$cas_path\E}msx,
 		object_instance   => $owner,
 		owner             => $self->_handler_owner_name,
 	);
 	$user_agent->add_handler(
 		response_done   => \&_determine_complete_login,
-		m_host          => $cas_url->host,
-		m_path_match    => qr{\A /login}msx,
+		m_host          => $cas_host,
+		m_path_match    => qr{\A \Q$cas_path\E}msx,
 		object_instance => $owner,
 		owner           => $self->_handler_owner_name,
 	);
@@ -585,6 +593,8 @@ nothing.
 
 =head2 cas_url
 
+B<Added in version 0.06>; be sure to require this version for this feature.
+
 This is a L<URI> object of the base URL of the CAS site. This is typically
 the path before C</login>. A string may be supplied and will automatically
 be converted to a L<URI> object.
@@ -629,6 +639,11 @@ login page. All arguments are optional. The following are the possible
 arguments:
 
 =over 4
+
+=item * cas_url
+
+This is the URL of the CAS deployment to use. By default this will use the
+L</cas_url> attribute. This can be either a L<URI|URI> object or a string.
 
 =item * service
 
