@@ -5,6 +5,8 @@ Revision history for Authen-CAS-External
   * Fixed bug where when `Authen::CAS::External::UserAgent` was destroyed
     the user agent that was attached to it would have now-useless handles
     still attached.
+  * Added support to type `TicketGrantingCookie` for the format shown in
+    [Clustering CAS](http://www.ja-sig.org/wiki/display/CASUM/Clustering+CAS).
 
 0.06 Thu, April 8, 2010 18:34:53 -0400
   * Fixed bug where if the CAS deployment was in a sub path the module would

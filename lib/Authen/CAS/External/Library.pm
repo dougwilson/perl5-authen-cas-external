@@ -27,7 +27,7 @@ subtype ServiceTicket,
 
 subtype TicketGrantingCookie,
 	as Str,
-	where { m{\A [A-Za-z0-9-]+ \z}msx };
+	where { m{\A (?:TGC-)? [A-Za-z0-9-]+ (?:-[A-Za-z0-9\.-]+)? \z}msx };
 
 1;
 
@@ -58,17 +58,18 @@ No methods.
 
 =head1 TYPES PROVIDED
 
-=over 4
+=head2 ServiceTicket
 
-=item * ServiceTicket
+B<Provides no coercions.>
 
-Provides no coercions.
+=head2 TicketGrantingCookie
 
-=item * TicketGrantingCookie
+B<Provides no coercions.>
 
-Provides no coercions.
-
-=back
+This is the ticket-granting cookie as defined in section 3.6 of the
+L<CAS Protocol|http://www.jasig.org/cas/protocol>. This also allows for a domain
+name to be present at the end as per discussed in
+L<Clustering CAS|http://www.ja-sig.org/wiki/display/CASUM/Clustering+CAS>.
 
 =head1 DEPENDENCIES
 
