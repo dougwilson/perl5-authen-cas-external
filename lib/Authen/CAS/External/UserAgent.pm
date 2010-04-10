@@ -502,6 +502,15 @@ sub BUILD {
 	return;
 }
 
+sub DEMOLISH {
+	my ($self) = @_;
+
+	# Remove the handlers from the user agent
+	$self->_remove_user_agent_handlers;
+
+	return;
+}
+
 sub FOREIGNBUILDARGS {
 	my ($class, @args) = @_;
 

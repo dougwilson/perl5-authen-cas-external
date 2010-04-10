@@ -20,6 +20,6 @@ eval { use Test::Pod::Coverage; };
 
 # Test the POD, except for Moose privates
 all_pod_coverage_ok({
-	'also_private' => [qw(BUILD)],
+	'also_private' => [qw(BUILD DEMOLISH)],
 });
 
