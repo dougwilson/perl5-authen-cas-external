@@ -146,7 +146,7 @@ This documentation refers to L<Authen::CAS::External> version 0.06
   $cas_auth->username('joe_smith');
   $cas_auth->password('hAkaT5eR');
 
-  my $response = $cas_auth->authentiate();
+  my $response = $cas_auth->authenticate();
 
   my $secured_page = $ua->get($response->destination);
 
