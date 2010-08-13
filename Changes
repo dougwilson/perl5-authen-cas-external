@@ -7,6 +7,7 @@ Revision history for Authen-CAS-External
     still attached.
   * Added support to type `TicketGrantingCookie` for the format shown in
     [Clustering CAS](http://www.ja-sig.org/wiki/display/CASUM/Clustering+CAS).
+  * Support authenticating with user agents that do not have a cookie jar.
 
 0.06 Thu, April 8, 2010 18:34:53 -0400
   * Fixed bug where if the CAS deployment was in a sub path the module would

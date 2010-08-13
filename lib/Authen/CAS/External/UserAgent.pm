@@ -205,12 +205,15 @@ sub _determine_complete_login {
 	# Create a location to store the response data
 	my %response_data;
 
-	if (defined $user_agent->cookie_jar) {
-		# Manually extract the cookies due to HTTP::Config handling
-		$user_agent->cookie_jar->extract_cookies($response);
+	COOKIE:
+	{
+		# Manually extract the cookies into our own jar
+		my $cookie_jar = HTTP::Cookies->new;
+
+		$cookie_jar->extract_cookies($response);
 
 		# Gather the ticket granting ticket
-		$user_agent->cookie_jar->scan(sub {
+		$cookie_jar->scan(sub {
 			my (undef, $key, $value, undef, $domain) = @_;
 
 			if ($domain eq $self->cas_url->host && $key eq 'CASTGC') {
