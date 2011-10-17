@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
@@ -152,7 +152,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to version 0.06.
+This documentation refers to version 0.07.
 
 =head1 SYNOPSIS
 
