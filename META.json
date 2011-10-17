@@ -55,19 +55,19 @@
    "provides" : {
       "Authen::CAS::External" : {
          "file" : "lib/Authen/CAS/External.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       },
       "Authen::CAS::External::Library" : {
          "file" : "lib/Authen/CAS/External/Library.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       },
       "Authen::CAS::External::Response" : {
          "file" : "lib/Authen/CAS/External/Response.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       },
       "Authen::CAS::External::UserAgent" : {
          "file" : "lib/Authen/CAS/External/UserAgent.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       }
    },
    "release_status" : "stable",
@@ -80,5 +80,5 @@
          "url" : "git://github.com/dougwilson/perl5-authen-cas-external.git"
       }
    },
-   "version" : "0.07"
+   "version" : "0.08"
 }
