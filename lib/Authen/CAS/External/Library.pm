@@ -39,7 +39,7 @@ Authen::CAS::External::Library - Types library
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Library> version 0.06
+This documentation refers to version 0.06.
 
 =head1 SYNOPSIS
 
@@ -77,11 +77,11 @@ This module is dependent on the following modules:
 
 =over 4
 
-=item * L<MooseX::Types> 0.08
+=item * L<MooseX::Types|MooseX::Types> 0.08
 
-=item * L<MooseX::Types::Moose>
+=item * L<MooseX::Types::Moose|MooseX::Types::Moose>
 
-=item * L<namespace::clean> 0.04
+=item * L<namespace::clean|namespace::clean> 0.04
 
 =back
 
