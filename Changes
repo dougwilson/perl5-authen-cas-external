@@ -1,6 +1,6 @@
 Revision history for perl distribution Authen-CAS-External
 
-TO BE RELEASED
+0.07 2011-10-17
  [ENHANCEMENTS]
  - Added support to type TicketGrantingCookie for the format shown in
    http://www.ja-sig.org/wiki/display/CASUM/Clustering+CAS.
