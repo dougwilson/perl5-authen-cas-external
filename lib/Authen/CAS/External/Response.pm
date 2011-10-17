@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 
 use Authen::CAS::External::Library qw(ServiceTicket TicketGrantingCookie);
 use LWP::UserAgent 5.819;
@@ -152,7 +152,7 @@ Authen::CAS::External::Response - Response from CAS interaction.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Response> version 0.06
+This documentation refers to version 0.07.
 
 =head1 SYNOPSIS
 
@@ -172,14 +172,14 @@ This documentation refers to L<Authen::CAS::External::Response> version 0.06
 =head1 DESCRIPTION
 
 This module is rarely created by anything other than
-L<Authen::CAS::External::UserAgent>. This is an object that is provided to
-make determining what the CAS response was easier.
+L<Authen::CAS::External::UserAgent|Authen::CAS::External::UserAgent>. This is
+an object that is provided to make determining what the CAS response was easier.
 
 =head1 ATTRIBUTES
 
 =head2 destination
 
-This contains a L<URI> object that is the URL to the destination service after
+This contains a L<URI|URI> object that is the URL to the destination service after
 authentication. This means that by going to this URL, the client should be at
 the service fully authenticated. Use L</has_destination> to determine if the
 response has a destination address.
@@ -202,14 +202,14 @@ the user their password is going to expire.
 
 =head2 response
 
-This contains a L<HTTP::Response> object that is the response that occurred
-right before the user agent would have left the CAS site. This would be useful
-for custom parsing of the response. Use L</has_response> to determine if the
-response has a response.
+This contains a L<HTTP::Response|HTTP::Response> object that is the response
+that occurred right before the user agent would have left the CAS site. This
+would be useful for custom parsing of the response. Use L</has_response> to
+determine if the response has a response.
 
 =head2 service
 
-This contains a L<URI> object that is the URL of the service. This would
+This contains a L<URI|URI> object that is the URL of the service. This would
 typically be the host and path part of the destination service. Use
 L</has_service> to determine if the response has a service.
 
@@ -236,7 +236,7 @@ names and their values that would have been set.
 B<get_cookies()>
 
 When no arguments are provided, returns a string of the cookies, using the
-as_string method of L<HTTP::Cookie>.
+as_string method of L<HTTP::Cookie|HTTP::Cookie>.
 
 B<get_cookies(@list_of_cookie_names)>
 
@@ -283,15 +283,15 @@ authentication.
 
 =over 4
 
-=item * L<LWP::UserAgent> 5.819
+=item * L<LWP::UserAgent|LWP::UserAgent> 5.819
 
-=item * L<Moose> 0.89
+=item * L<Moose|Moose> 0.89
 
-=item * L<MooseX::StrictConstructor> 0.08
+=item * L<MooseX::StrictConstructor|MooseX::StrictConstructor> 0.08
 
-=item * L<URI> 1.22
+=item * L<URI|URI> 1.22
 
-=item * L<namespace::clean> 0.04
+=item * L<namespace::clean|namespace::clean> 0.04
 
 =back
 

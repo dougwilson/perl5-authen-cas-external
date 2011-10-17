@@ -1,20 +1,13 @@
+Build.PL
 Changes
-inc/Module/Install.pm
-inc/Module/Install/AuthorRequires.pm
-inc/Module/Install/Base.pm
-inc/Module/Install/Can.pm
-inc/Module/Install/Fetch.pm
-inc/Module/Install/Makefile.pm
-inc/Module/Install/Metadata.pm
-inc/Module/Install/Win32.pm
-inc/Module/Install/WriteAll.pm
 lib/Authen/CAS/External.pm
 lib/Authen/CAS/External/FAQ.pod
 lib/Authen/CAS/External/Library.pm
 lib/Authen/CAS/External/Response.pm
 lib/Authen/CAS/External/UserAgent.pm
-Makefile.PL
+LICENSE
 MANIFEST			This list of files
+META.json
 META.yml
 README
 t/00-load.t

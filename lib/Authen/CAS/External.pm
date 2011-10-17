@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 
 use Authen::CAS::External::Library qw(TicketGrantingCookie);
 use Moose 0.89;
@@ -134,7 +134,7 @@ would.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External> version 0.06
+This documentation refers to version 0.07.
 
 =head1 SYNOPSIS
 
@@ -146,7 +146,7 @@ This documentation refers to L<Authen::CAS::External> version 0.06
   $cas_auth->username('joe_smith');
   $cas_auth->password('hAkaT5eR');
 
-  my $response = $cas_auth->authentiate();
+  my $response = $cas_auth->authenticate();
 
   my $secured_page = $ua->get($response->destination);
 
@@ -206,8 +206,8 @@ clears the L</ticket_granting_cookie>.
 =head2 authenticate
 
 This method will authenticate against the CAS service using the already supplied
-username and password and will return a L<Authen::CAS::External::Response>
-object.
+username and password and will return a
+L<Authen::CAS::External::Response|Authen::CAS::External::Response> object.
 
 This method takes a HASH with the following keys:
 
@@ -233,29 +233,30 @@ The default is to not send any service parameter.
 =head2 get_cas_credentials
 
 This method is not actually used, but is required for classes to consume the
-L<Authen::CAS::External::UserAgent> role as this class does. This method will
-return the currently set username and password to the user agent.
+L<Authen::CAS::External::UserAgent|Authen::CAS::External::UserAgent> role as
+this class does. This method will return the currently set username and
+password to the user agent.
 
 =head2 get_cas_ticket_granting_cookie
 
 This method is not actually used but is required for classes to consume the
-L<Authen::CAS::External::UserAgent> role as this class does. This method will
-return the currently set ticket granting cookie if the username requested
-matches the username set (and always should).
+L<Authen::CAS::External::UserAgent|Authen::CAS::External::UserAgent> role as
+this class does. This method will return the currently set ticket granting
+cookie if the username requested matches the username set (and always should).
 
 =head1 DEPENDENCIES
 
 =over 4
 
-=item * L<Moose> 0.89
+=item * L<Moose|Moose> 0.89
 
-=item * L<MooseX::StrictConstructor> 0.08
+=item * L<MooseX::StrictConstructor|MooseX::StrictConstructor> 0.08
 
-=item * L<MooseX::Types::Moose>
+=item * L<MooseX::Types::Moose|MooseX::Types::Moose>
 
-=item * L<URI> 1.22
+=item * L<URI|URI> 1.22
 
-=item * L<namespace::clean> 0.04
+=item * L<namespace::clean|namespace::clean> 0.04
 
 =back
 

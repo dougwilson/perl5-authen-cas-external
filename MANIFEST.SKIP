@@ -1,9 +1,13 @@
+\A_build/
 \A.git/
 \Ablib/
 \A.gitignore\z
+\ABuild\z
 \AMakefile(?:\.old|)?\z
 \AMANIFEST\.(?:bak|SKIP)\z
 \Apm_to_blib\z
 \ADebian_CPANTS.txt\z
 \.mkdn\z
 \Acover_db/ # The Devel::Cover database
+^MYMETA\.yml$
+^MYMETA\.json$

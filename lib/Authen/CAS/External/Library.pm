@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 
 use MooseX::Types 0.08 -declare => [qw(
 	ServiceTicket
@@ -27,7 +27,7 @@ subtype ServiceTicket,
 
 subtype TicketGrantingCookie,
 	as Str,
-	where { m{\A [A-Za-z0-9-]+ \z}msx };
+	where { m{\A (?:TGC-)? [A-Za-z0-9-]+ (?:-[A-Za-z0-9\.-]+)? \z}msx };
 
 1;
 
@@ -39,7 +39,7 @@ Authen::CAS::External::Library - Types library
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::Library> version 0.06
+This documentation refers to version 0.07.
 
 =head1 SYNOPSIS
 
@@ -58,17 +58,18 @@ No methods.
 
 =head1 TYPES PROVIDED
 
-=over 4
+=head2 ServiceTicket
 
-=item * ServiceTicket
+B<Provides no coercions.>
 
-Provides no coercions.
+=head2 TicketGrantingCookie
 
-=item * TicketGrantingCookie
+B<Provides no coercions.>
 
-Provides no coercions.
-
-=back
+This is the ticket-granting cookie as defined in section 3.6 of the
+L<CAS Protocol|http://www.jasig.org/cas/protocol>. This also allows for a domain
+name to be present at the end as per discussed in
+L<Clustering CAS|http://www.ja-sig.org/wiki/display/CASUM/Clustering+CAS>.
 
 =head1 DEPENDENCIES
 
@@ -76,11 +77,11 @@ This module is dependent on the following modules:
 
 =over 4
 
-=item * L<MooseX::Types> 0.08
+=item * L<MooseX::Types|MooseX::Types> 0.08
 
-=item * L<MooseX::Types::Moose>
+=item * L<MooseX::Types::Moose|MooseX::Types::Moose>
 
-=item * L<namespace::clean> 0.04
+=item * L<namespace::clean|namespace::clean> 0.04
 
 =back
 

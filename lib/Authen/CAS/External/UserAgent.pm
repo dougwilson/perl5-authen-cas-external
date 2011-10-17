@@ -7,7 +7,7 @@ use warnings 'all';
 
 # Module metadata
 our $AUTHORITY = 'cpan:DOUGDUDE';
-our $VERSION   = '0.06';
+our $VERSION   = '0.07';
 
 use Authen::CAS::External::Response 0.05;
 use HTML::Form 5.817;
@@ -205,12 +205,15 @@ sub _determine_complete_login {
 	# Create a location to store the response data
 	my %response_data;
 
-	if (defined $user_agent->cookie_jar) {
-		# Manually extract the cookies due to HTTP::Config handling
-		$user_agent->cookie_jar->extract_cookies($response);
+	COOKIE:
+	{
+		# Manually extract the cookies into our own jar
+		my $cookie_jar = HTTP::Cookies->new;
+
+		$cookie_jar->extract_cookies($response);
 
 		# Gather the ticket granting ticket
-		$user_agent->cookie_jar->scan(sub {
+		$cookie_jar->scan(sub {
 			my (undef, $key, $value, undef, $domain) = @_;
 
 			if ($domain eq $self->cas_url->host && $key eq 'CASTGC') {
@@ -502,6 +505,15 @@ sub BUILD {
 	return;
 }
 
+sub DEMOLISH {
+	my ($self) = @_;
+
+	# Remove the handlers from the user agent
+	$self->_remove_user_agent_handlers;
+
+	return;
+}
+
 sub FOREIGNBUILDARGS {
 	my ($class, @args) = @_;
 
@@ -532,8 +544,7 @@ Authen::CAS::External::UserAgent - UserAgent role for CAS session managers.
 
 =head1 VERSION
 
-This documentation refers to L<Authen::CAS::External::UserAgent> version
-0.06
+This documentation refers to version 0.07.
 
 =head1 SYNOPSIS
 
@@ -570,8 +581,8 @@ site.
 
 =head1 ROLE REQUIRES
 
-This is a L<Moose::Role> and for this role to be used, the user MUST provide
-the following two methods:
+This is a L<Moose::Role|Moose::Role> and for this role to be used, the user
+MUST provide the following two methods:
 
 =head2 get_cas_credentials
 
@@ -593,13 +604,14 @@ nothing.
 
 =head2 cas_url
 
-This is a L<URI> object of the base URL of the CAS site. This is typically
+This is a L<URI|URI> object of the base URL of the CAS site. This is typically
 the path before C</login>. A string may be supplied and will automatically
-be converted to a L<URI> object.
+be converted to a L<URI|URI> object.
 
 =head2 previous_response
 
-This holds the response object L<Authen::CAS::External::Response> from the
+This holds the response object
+L<Authen::CAS::External::Response|Authen::CAS::External::Response> from the
 last executed CAS navigation.
 
 =head2 redirect_back
@@ -609,9 +621,9 @@ outside of the L</cas_url>. The default is C<0>.
 
 =head2 user_agent
 
-This is a L<LWP::UserAgent> that is used to navigate the CAS site. The default
-is L<LWP::UserAgent> with an in-memory cookie jar and allows the C<POST>
-method to be redirectable.
+This is a L<LWP::UserAgent|LWP::UserAgent> that is used to navigate the CAS
+site. The default is L<LWP::UserAgent|LWP::UserAgent> with an in-memory cookie
+jar and allows the C<POST> method to be redirectable.
 
 =head1 METHODS
 
@@ -663,27 +675,27 @@ This is a Boolean to whether or not to renew the session.
 
 =over 4
 
-=item * L<HTML::Form> 5.817
+=item * L<HTML::Form|HTML::Form> 5.817
 
-=item * L<HTML::TokeParser> 3.00
+=item * L<HTML::TokeParser|HTML::TokeParser> 3.00
 
-=item * L<HTTP::Status> 5.817
+=item * L<HTTP::Status|HTTP::Status> 5.817
 
-=item * L<LWP::UserAgent> 5.819
+=item * L<LWP::UserAgent|LWP::UserAgent> 5.819
 
-=item * L<Moose::Role> 0.89
+=item * L<Moose::Role|Moose::Role> 0.89
 
-=item * L<MooseX::Types::Moose>
+=item * L<MooseX::Types::Moose|MooseX::Types::Moose>
 
-=item * L<MooseX::Types::URI>
+=item * L<MooseX::Types::URI|MooseX::Types::URI>
 
-=item * L<Scalar::Util> 1.14
+=item * L<Scalar::Util|Scalar::Util> 1.14
 
-=item * L<URI> 1.22
+=item * L<URI|URI> 1.22
 
-=item * L<URI::QueryParam>
+=item * L<URI::QueryParam|URI::QueryParam>
 
-=item * L<namespace::clean> 0.04
+=item * L<namespace::clean|namespace::clean> 0.04
 
 =back
 
