@@ -30,6 +30,7 @@ my $build = Module::Build->new(
 		'perl'                      => '5.008001',
 		'HTML::Form'                => '5.817',
 		'HTML::TokeParser'          => '3.00',
+                'HTTP::Cookies'             => '6.01',
 		'HTTP::Status'              => '5.817',
 		'LWP::UserAgent'            => '5.819',
 		'Moose'                     => '0.89',

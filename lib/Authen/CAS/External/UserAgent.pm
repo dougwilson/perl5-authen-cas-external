@@ -12,6 +12,7 @@ our $VERSION   = '0.08';
 use Authen::CAS::External::Response 0.05;
 use HTML::Form 5.817;
 use HTML::TokeParser 3.00;
+use HTTP::Cookies 6.01;
 use HTTP::Status 5.817 qw(HTTP_BAD_REQUEST);
 use LWP::UserAgent 5.819;
 use Moose::Role 0.89;
